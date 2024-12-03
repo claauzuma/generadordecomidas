@@ -139,7 +139,7 @@ const combinacionesValidasDeComidas = [
 const objetivo = {
     proteina: 40,
     carbohidratos: 80,
-    grasas: 25,
+    grasas: 35,
     calorias: ""
   };
   function calcularCalorias(obj) {
@@ -286,7 +286,7 @@ if (intentos < 10) {
                  console.log("El porcentaje representado es de " , porcentajeRepresentado)
 
                  if(alimento1proteinas > proteinasRestantes) {
-                 throw new Error("Volve a ingresar otra cantidad, hubo un error");
+                 throw new Error(`Ingresa otra cantidad menor del alimento ${primerAlimento.nombre} , hubo un error de cálculo`);
                  
                  }
        
@@ -315,7 +315,7 @@ if (intentos < 10) {
                     let porcentajeRepresentado = (alimento2proteinas / proteinasRestantes) 
                     
                  if(alimento2proteinas > proteinasRestantes) {
-                    throw new Error("Volve a ingresar otra cantidad, hubo un error");
+                    throw new Error(`Ingresa otra cantidad menor del alimento ${segundoAlimento.nombre} , hubo un error de cálculo`);
                     
                     }
  
@@ -417,8 +417,8 @@ if (intentos < 10) {
                 grasasTotal = 0;
                 caloriasTotal = 0;
                 combinacion = [];
-                if(intentos > 10) {
-                    throw new Error("No se pudo encontrar una combinación con el alimento seleccionado " ,alimento1);
+                if(intentos > 5) {
+                    throw new Error("No se pudo encontrar una combinación con los alimentos proteicos seleccionados ");
                 }
 
             }
@@ -462,7 +462,7 @@ if (intentos < 10) {
               console.log("El porcentaje representado es de " , porcentajeRepresentado)
 
               if(alimento1proteinas > proteinasRestantes) {
-              throw new Error("Volve a ingresar otra cantidad, hubo un error");
+              throw new Error(`Vuelve a ingresar una cantidad menor de alimento proteíco para ${primerAlimento.nombre}, hubo un error`);
               
               }
     
@@ -503,7 +503,7 @@ if (intentos < 10) {
           
               // Validación: la proteína del segundo alimento no debe exceder la restante
               if (alimento2proteinas > proteinasRestantes) {
-                  throw new Error("Vuelve a ingresar otra cantidad, hubo un error.");
+                  throw new Error(`Vuelve a ingresar una cantidad menor de proteinas para el alimento ${segundoAlimento.nombre}, hubo un error.`);
               }
           
               let proporcionSegundaProte = porcentajeRepresentado; // Porcentaje del segundo alimento
@@ -535,15 +535,11 @@ if (intentos < 10) {
           
 
           else if (primerAlimento.cantidad == 0 && segundoAlimento.cantidad == 0 && tercerAlimento.cantidad > 0) {
-            // Calcular las proteínas del tercer alimento
             let alimento3proteinas = tercerAlimento.cantidad * alimento3.proteina;
-            
-            // Calcular el porcentaje representado por el tercer alimento
             let porcentajeRepresentado = (alimento3proteinas / proteinasRestantes);
         
-            // Verificar que la cantidad no exceda las proteínas restantes
             if (alimento3proteinas > proteinasRestantes) {
-                throw new Error("Vuelve a ingresar otra cantidad, hubo un error");
+                throw new Error(`Vuelve a ingresar una cantidad menor de proteinas para el alimento ${tercerAlimento.nombre}, hubo un error`);
             }
         
             // Calcular las proporciones para el tercer alimento y los demás
@@ -808,7 +804,7 @@ if (intentos < 10) {
              caloriasTotal = 0;
              combinacion = [];
              if(intentos > 10) {
-                 throw new Error("No se pudo encontrar una combinación con los alimentos proteicos seleccionados, elegi otros alimentos " ,alimento1);
+                 throw new Error("No se pudo encontrar una combinación con los alimentos proteicos seleccionados, elegi otros alimentos ");
              }
 
          }   
@@ -1138,17 +1134,11 @@ if (intentos < 10) {
                     grasasTotal -= ((alimento1.grasas * cantidadNecesaria1) + (alimento2.grasas * cantidadNecesaria2));
                     caloriasTotal -= ((alimento1.calorias * cantidadNecesaria1) + (alimento2.calorias * cantidadNecesaria2));
                     
-                    
-                        throw new Error("No se pudo encontrar una combinación con los alimentos seleccionados");
-                    
-                   
-            
+                    if(intentos > 5) {
+                      throw new Error("No se pudo encontrar una combinación con los alimentos de carbohidratos seleccionados");
+                    }
                 }
-  
-
         } 
-
-
 
         else if(cantidadAlimentosCarbohidratos == 3) {
           console.log("La cantidad de alimentos de ch es 3")
@@ -1574,15 +1564,11 @@ if (intentos < 10) {
              grasasTotal = 0;
              caloriasTotal = 0;
              combinacion = [];
-             if(intentos > 10) {
-                 throw new Error("No se pudo encontrar una combinación con los alimentos proteicos seleccionados, elegi otros alimentos " ,alimento1);
+             if(intentos > 6) {
+                 throw new Error("No se pudo encontrar una combinación con los alimentos carbohidratos seleccionados, elegi otros alimentos ");
              }
 
          }   
-
-
-
-        
 
         }
 
@@ -2744,24 +2730,22 @@ if (intentos < 10) {
          }
          else {
              console.log("Vamos a intentar nuevamente")
-             intentos++;
+             intentos+= 1;
              procesarAlimentosCarbohidratos = true;
              proteinaTotal = 0;
              carbohidratosTotal = 0;
              grasasTotal = 0;
              caloriasTotal = 0;
              combinacion = [];
-             if(intentos > 10) {
-                 throw new Error("No se pudo encontrar una combinación con los alimentos proteicos seleccionados, elegi otros alimentos ");
-             }
+             if(intentos > 6) {
+              throw new Error("No se pudo encontrar una combinación con los alimentos carbohidratos seleccionados, elegi otros alimentos ");
+          }
 
          }      
 
         }
 
   
-
-       
         else if (cantidadAlimentosCarbohidratos == 1) {
             let alimento
             console.log("SOLO HAY UN ALIMENTO DE CARBOS")
@@ -2998,7 +2982,7 @@ if (intentos < 10) {
         console.log("Las grasas totales son :" + grasasTotal)
         console.log("LA META DE GRASAS SON son :" + objetivo.grasas)
         console.log("------------------------------------------------------------------------------------------------------------")
-        mejorarCalorias(alimentosProteACuadrar, alimentosChACuadrar);
+        //mejorarCalorias(alimentosProteACuadrar, alimentosChACuadrar);
         intentos+=1;
 
 
@@ -3342,9 +3326,9 @@ function construirCarbosAMandar(alimentosCarbos) {
 
 
 let soloAlimentosPasados = true;
-let alimentosProteicos = [{nombre : "Pechuga de pollo" , cantidad: 0, modificable: true }]
-let alimentosCarbos = [ {nombre: "Arroz" , cantidad: 60, modificable: false } , {nombre: "Papas" , cantidad: 0,  modificable: true }]
-let alimentosGrasas =  [{nombre: "Almendras" , cantidad: 0, modificable: true }]
+let alimentosProteicos = [{nombre : "Pechuga de pollo" , cantidad: 0, modificable: true } ,{nombre : "Pechuga de Pavo" , cantidad: 40, modificable: false }, {nombre : "Jamon Cocido" , cantidad: 15, modificable: false } ]
+let alimentosCarbos = [ {nombre: "Arroz" , cantidad: 0, modificable: true } , {nombre: "Papas" , cantidad:20,  modificable: false } , {nombre: "Fideos" , cantidad: 0, modificable: true } , {nombre: "Tomate" , cantidad: 40, modificable: false }]
+let alimentosGrasas =  [{nombre: "Queso Cremoso" , cantidad: 10, modificable: false } , {nombre: "Almendras" , cantidad: 0, modificable: true }]
 
 try {
 
