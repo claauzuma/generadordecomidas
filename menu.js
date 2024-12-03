@@ -944,10 +944,8 @@ if (intentos < 10) {
   console.log(`Carbohidratos restantes: ${carbohidratosRestantes}`);
 
 
-        if(alimentosChACuadrar.length == 2) {
-
-
-            cantidadAlimentosCarbohidratos = 2;
+        if(alimentosChACuadrar.length > 0) {
+            cantidadAlimentosCarbohidratos = alimentosChACuadrar.length;
         }
              /////SI LA CANTIDAD DE ALIMENTOS DE CARBOHIDRATOS ES 2 ...
 
@@ -957,7 +955,6 @@ if (intentos < 10) {
             console.log(porcentajeAlimento1)
             let porcentajeAlimento2 = 1 - porcentajeAlimento1;
             console.log(porcentajeAlimento2)
-        
             let alimento1, alimento2;
            
 
@@ -975,10 +972,12 @@ if (intentos < 10) {
                    }
 
                    }
+
+
+                   ///SI HAY DOS ALIMENTOS A CUADRARR
                    else if(alimentosChACuadrar.length == 2) {
 
                    console.log("Hay dos alimentos fuentes para cuadrar")
-
                    let alimentosFuentesCarbos = alimentos.filter(a => a.carbohidratos > a.proteina && a.carbohidratos > a.grasas);
                    alimento1 = alimentosFuentesCarbos.find(alim => alim.nombre === alimentosChACuadrar[0].nombre);    
                    alimento2 = alimentosFuentesCarbos.find(alim => alim.nombre === alimentosChACuadrar[1].nombre);        
@@ -992,9 +991,7 @@ if (intentos < 10) {
 
       
                     let carbohidratosRestantes = (objetivo.carbohidratos - carbohidratosTotal);
-                    console.log("LOS CARBOHIDRATOS RESTANTES SONNN " , carbohidratosRestantes)
                     let alimento1carbohidratos = primerAlimento.cantidad * alimento1.carbohidratos;
-                    console.log("LOS CARBOHIDRATOS DEL PRIMER ALIMENTO SON " , alimento1carbohidratos)
                     let porcentajeRepresentado = (alimento1carbohidratos / carbohidratosRestantes) 
                     console.log("EL PORCENTAJE DE CH DEL PRIMER ALIMENTO CON LOS CARBOHIDRATOS RESTANTES SON " , porcentajeRepresentado)
 
@@ -1020,6 +1017,43 @@ if (intentos < 10) {
                     console.log("Porcentaje alimento 1 " + porcentajeAlimento1)
                     console.log("Porcentaje alimento 2 " + porcentajeAlimento2)
                    }
+
+
+                   else if (segundoAlimento.cantidad > 0) {
+                    console.log("El segundo ch tiene canttidad")
+                    let carbohidratosRestantes = objetivo.carbohidratos - carbohidratosTotal;
+                    console.log("Los carbos restantes son" , carbohidratosRestantes)
+                    
+                    if (carbohidratosRestantes <= 0) {
+                      throw new Error("No hay carbohidratos restantes para asignar.");
+                    }
+                  
+                    let alimento2carbohidratos = segundoAlimento.cantidad * alimento2.carbohidratos;
+                    let porcentajeRepresentado = alimento2carbohidratos / carbohidratosRestantes;
+                    console.log("EL PORCENTAJE DE CH DEL SEGUNDO ALIMENTO CON LOS CARBOHIDRATOS RESTANTES SON ", porcentajeRepresentado);
+                  
+                    if (alimento2carbohidratos > carbohidratosRestantes) {
+                      throw new Error("Vuelve a ingresar otra cantidad, hubo un error.");
+                    }
+                  
+                    let proporcionRepresentada = porcentajeRepresentado; // Por ejemplo, 0.7
+                    let proporcionPrimerCarbo = 1 - proporcionRepresentada; // Por ejemplo, 0.3
+                    console.log(`Porcentaje de carbohidratos representados por el segundo alimento: ${proporcionRepresentada}`);
+                    console.log(`Porcentaje de carbohidratos restantes para el primer alimento: ${proporcionPrimerCarbo}`);
+                  
+                    // Verificar que las proporciones sumen 1
+                    if (Math.abs(proporcionRepresentada + proporcionPrimerCarbo - 1) > 0.0001) {
+                      throw new Error("Error de cálculo en las proporciones. Revisa los valores ingresados.");
+                    }
+                  
+                    // Asignar las proporciones a los alimentos
+                    porcentajeAlimento2 = proporcionRepresentada;
+                    porcentajeAlimento1 = proporcionPrimerCarbo;
+                  
+                    console.log("Porcentaje alimento 2: " + porcentajeAlimento2);
+                    console.log("Porcentaje alimento 1: " + porcentajeAlimento1);
+                  }
+                  
 
                    }
                    else {
@@ -1114,6 +1148,1618 @@ if (intentos < 10) {
 
         } 
 
+
+
+        else if(cantidadAlimentosCarbohidratos == 3) {
+          console.log("La cantidad de alimentos de ch es 3")
+     
+          console.log("Hasta aca va bien eh")
+          let alimento1, alimento2, alimento3;
+          let porcentajeAlimento1 = Math.random(); // Genera un número entre 0 y 1
+          let porcentajeAlimento2 = Math.random() * (1 - porcentajeAlimento1); // Entre 0 y (1 - porcentajeAlimento1)
+          let porcentajeAlimento3 = 1 - (porcentajeAlimento1 + porcentajeAlimento2); // Resta para completar 1
+      
+          do {
+              if(alimentosChACuadrar.length == 1) {
+               console.log("Esta perfeecto , le pasamos solo un alimento proteico-------------------------------------------------")   
+              alimento1 = alimentos.find(alim => alim.nombre === alimentosProteACuadrar[0].nombre); 
+              alimento2 = combinacionDameCarbosSecundarioRandom(alimento1.nombre)      
+              }  
+              else if(alimentosChACuadrar.length ==2) {
+               /// nada por ahora
+              } 
+              else if(alimentosChACuadrar.length == 3) {
+                console.log("La cantidad de alimentos a cuadrar es de 3")
+ 
+              console.log("Entra bien por aca")
+              alimento1 = alimentos.find(alim => alim.nombre === alimentosChACuadrar[0].nombre);    
+              alimento2 = alimentos.find(alim => alim.nombre === alimentosChACuadrar[1].nombre);      
+              alimento3 = alimentos.find(alim => alim.nombre === alimentosChACuadrar[2].nombre);      
+ 
+              let primerAlimento = alimentosChACuadrar[0];
+              let segundoAlimento = alimentosChACuadrar[1];
+              let tercerAlimento = alimentosChACuadrar[2];
+              console.log("LOS ALIMENTOS CH SONNNNN")
+              console.log(primerAlimento)
+              console.log(segundoAlimento)
+              console.log(tercerAlimento)
+              
+
+              let carbohidratosRestantes = (objetivo.carbohidratos - carbohidratosTotal);
+
+ 
+              ////Si el primer alimento a cuadrar tiene cantidad > 0              
+              if(primerAlimento.cantidad > 0 && segundoAlimento.cantidad == 0 && tercerAlimento.cantidad == 0) {
+                  console.log("Objetivo carbos " + objetivo.carbohidratos)
+                  console.log("Carbos total" + carbohidratosTotal
+
+                  )
+               let alimento1carbohidratos = primerAlimento.cantidad * alimento1.carbohidratos;
+               console.log("Los carbohidratos del primer alimento son " , alimento1carbohidratos)
+               let porcentajeRepresentado = (alimento1carbohidratos / carbohidratosRestantes) 
+               console.log("El porcentaje representado es de " , porcentajeRepresentado)
+ 
+               if(alimento1carbohidratos > carbohidratosRestantes) {
+               throw new Error("Volve a ingresar otro alimento de carbohidratos que no sea " + alimento1.nombre + " hubo un error");
+               
+               }
+     
+               let proporcionRepresentada = porcentajeRepresentado; // 0.38
+               let proporcionSegundoCarbo = Math.random() * (1 - proporcionRepresentada);  // Genera un valor entre 0 y (1 - proporcionRepresentada)
+               let proporcionTercerCarbo = 1 - (proporcionRepresentada + proporcionSegundoCarbo);  // Completa la suma a 1
+ 
+               console.log(`Porcentaje de calorías representadas por el primer alimento: ${proporcionRepresentada}`);
+               console.log(`Porcentaje de calorías restantes para el segundo alimento: ${proporcionSegundoCarbo}`);
+               console.log("Proporción Tercer Carbo:", proporcionTercerCarbo.toFixed(3));
+ 
+               if (Math.abs(proporcionRepresentada + proporcionSegundoCarbo + proporcionTercerCarbo - 1) > 0.0001) {
+                   throw new Error("Error de cálculo en las proporciones. Revisa los valores ingresados.");
+               }
+           
+               primerAlimento.cantidad = proporcionRepresentada;
+               segundoAlimento.cantidad = proporcionSegundoCarbo;
+               tercerAlimento.cantidad = proporcionTercerCarbo
+              
+                porcentajeAlimento1 = primerAlimento.cantidad 
+                porcentajeAlimento2 = segundoAlimento.cantidad 
+                porcentajeAlimento3 = tercerAlimento.cantidad;
+ 
+               console.log("Porcentaje alimento 1 " + porcentajeAlimento1)
+               console.log("Porcentaje alimento 2 " + porcentajeAlimento2)
+               console.log("Porcentaje alimento 3 " + porcentajeAlimento3)
+              }
+
+              else if (primerAlimento.cantidad == 0 && segundoAlimento.cantidad > 0 && tercerAlimento.cantidad == 0) {
+                console.log("Objetivo carbos: " + objetivo.carbohidratos);
+                console.log("Carbos total: " + carbohidratosTotal);
+                console.log("LOS CARBOHIDRATOS RESTANTES SOOOOOOOOOOOONNNNN ========>" ,carbohidratosRestantes)
+            
+                let alimento2carbohidratos = segundoAlimento.cantidad * alimento2.carbohidratos;
+                console.log("Los carbohidratos del segundo alimento son: ", alimento2carbohidratos);
+            
+                let porcentajeRepresentado = (alimento2carbohidratos / carbohidratosRestantes);
+                console.log("El porcentaje representado es de: ", porcentajeRepresentado);
+            
+                if (alimento2carbohidratos > carbohidratosRestantes) {
+                    throw new Error("Vuelve a ingresar otro alimento de carbohidratos que no sea " + alimento2.nombre + ", hubo un error");
+                }
+            
+                let proporcionRepresentada = porcentajeRepresentado;
+                let proporcionPrimerCarbo = Math.random() * (1 - proporcionRepresentada); // Genera valor entre 0 y (1 - proporcionRepresentada)
+                let proporcionTercerCarbo = 1 - (proporcionRepresentada + proporcionPrimerCarbo); // Completa la suma a 1
+            
+                console.log(`Porcentaje de calorías representadas por el segundo alimento: ${proporcionRepresentada}`);
+                console.log(`Porcentaje de calorías restantes para el primer alimento: ${proporcionPrimerCarbo}`);
+                console.log("Proporción Tercer Carbo:", proporcionTercerCarbo.toFixed(3));
+            
+                if (Math.abs(proporcionRepresentada + proporcionPrimerCarbo + proporcionTercerCarbo - 1) > 0.0001) {
+                    throw new Error("Error de cálculo en las proporciones. Revisa los valores ingresados.");
+                }
+            
+                segundoAlimento.cantidad = proporcionRepresentada;
+                primerAlimento.cantidad = proporcionPrimerCarbo;
+                tercerAlimento.cantidad = proporcionTercerCarbo;
+            
+                 porcentajeAlimento2 = segundoAlimento.cantidad;
+                 porcentajeAlimento1 = primerAlimento.cantidad;
+                 porcentajeAlimento3 = tercerAlimento.cantidad;
+            
+                console.log("Porcentaje alimento 2: " + porcentajeAlimento2);
+                console.log("Porcentaje alimento 1: " + porcentajeAlimento1);
+                console.log("Porcentaje alimento 3: " + porcentajeAlimento3);
+            }
+            
+ 
+            else if (primerAlimento.cantidad == 0 && segundoAlimento.cantidad == 0 && tercerAlimento.cantidad > 0) {
+              console.log("Objetivo carbos: " + objetivo.carbohidratos);
+              console.log("Carbos total: " + carbohidratosTotal);
+          
+              let alimento3carbohidratos = tercerAlimento.cantidad * alimento3.carbohidratos;
+              console.log("Los carbohidratos del tercer alimento son: ", alimento3carbohidratos);
+          
+              let porcentajeRepresentado = (alimento3carbohidratos / carbohidratosRestantes);
+              console.log("El porcentaje representado es de: ", porcentajeRepresentado);
+          
+              if (alimento3carbohidratos > carbohidratosRestantes) {
+                  throw new Error("Vuelve a ingresar otro alimento de carbohidratos que no sea " + alimento3.nombre + ", hubo un error");
+              }
+          
+              let proporcionRepresentada = porcentajeRepresentado;
+              let proporcionPrimerCarbo = Math.random() * (1 - proporcionRepresentada); // Genera valor entre 0 y (1 - proporcionRepresentada)
+              let proporcionSegundoCarbo = 1 - (proporcionRepresentada + proporcionPrimerCarbo); // Completa la suma a 1
+          
+              console.log(`Porcentaje de calorías representadas por el tercer alimento: ${proporcionRepresentada}`);
+              console.log(`Porcentaje de calorías restantes para el primer alimento: ${proporcionPrimerCarbo}`);
+              console.log("Proporción Segundo Carbo:", proporcionSegundoCarbo.toFixed(3));
+          
+              if (Math.abs(proporcionRepresentada + proporcionPrimerCarbo + proporcionSegundoCarbo - 1) > 0.0001) {
+                  throw new Error("Error de cálculo en las proporciones. Revisa los valores ingresados.");
+              }
+          
+              tercerAlimento.cantidad = proporcionRepresentada;
+              primerAlimento.cantidad = proporcionPrimerCarbo;
+              segundoAlimento.cantidad = proporcionSegundoCarbo;
+          
+               porcentajeAlimento3 = tercerAlimento.cantidad;
+               porcentajeAlimento1 = primerAlimento.cantidad;
+               porcentajeAlimento2 = segundoAlimento.cantidad;
+          
+              console.log("Porcentaje alimento 3: " + porcentajeAlimento3);
+              console.log("Porcentaje alimento 1: " + porcentajeAlimento1);
+              console.log("Porcentaje alimento 2: " + porcentajeAlimento2);
+          }
+          
+         
+          else if (primerAlimento.cantidad > 0 && segundoAlimento.cantidad > 0 && tercerAlimento.cantidad == 0) {
+            console.log("Objetivo carbos: " + objetivo.carbohidratos);
+            console.log("Carbos total: " + carbohidratosTotal);
+        
+            let alimento1carbohidratos = primerAlimento.cantidad * alimento1.carbohidratos;
+            let alimento2carbohidratos = segundoAlimento.cantidad * alimento2.carbohidratos;
+        
+            console.log("Los carbohidratos del primer alimento son: ", alimento1carbohidratos);
+            console.log("Los carbohidratos del segundo alimento son: ", alimento2carbohidratos);
+        
+            console.log("Carbohidratos restantes para el tercer alimento: ", carbohidratosRestantes);
+        
+            if (carbohidratosRestantes < 0) {
+                throw new Error("El total de carbohidratos de los dos primeros alimentos excede el objetivo. Ajusta las cantidades.");
+            }
+        
+            let porcentajeRepresentado1 = alimento1carbohidratos / carbohidratosRestantes;
+            let porcentajeRepresentado2 = alimento2carbohidratos / carbohidratosRestantes;
+
+            console.log("El porcentaje representado del primer ch es de: ", porcentajeRepresentado1);
+            console.log("El porcentaje representado del segundo ch es de: ", porcentajeRepresentado2);
+        
+            let proporcionTercerCarbo = 1 - (porcentajeRepresentado2 + porcentajeRepresentado1);
+            console.log("Proporción del tercer alimento: ", proporcionTercerCarbo);
+        
+            if (Math.abs(porcentajeRepresentado1 +  porcentajeRepresentado2 + proporcionTercerCarbo - 1) > 0.0001) {
+                throw new Error("Error de cálculo en las proporciones. Revisa los valores ingresados.");
+            }
+        
+            tercerAlimento.cantidad = proporcionTercerCarbo;
+            primerAlimento.cantidad = porcentajeRepresentado1;
+            segundoAlimento.cantidad = porcentajeRepresentado2;
+        
+             porcentajeAlimento1 = primerAlimento.cantidad;
+             porcentajeAlimento2 = segundoAlimento.cantidad;
+             porcentajeAlimento3 = tercerAlimento.cantidad;
+        
+            console.log("Porcentaje alimento 1: " + porcentajeAlimento1);
+            console.log("Porcentaje alimento 2: " + porcentajeAlimento2);
+            console.log("Porcentaje alimento 3: " + porcentajeAlimento3);
+        }
+        
+       
+        else if (primerAlimento.cantidad > 0 && segundoAlimento.cantidad == 0 && tercerAlimento.cantidad > 0) {
+          console.log("Objetivo carbos: " + objetivo.carbohidratos);
+          console.log("Carbos total: " + carbohidratosTotal);
+      
+          let alimento1carbohidratos = primerAlimento.cantidad * alimento1.carbohidratos;
+          let alimento3carbohidratos = tercerAlimento.cantidad * alimento3.carbohidratos;
+      
+          console.log("Los carbohidratos del primer alimento son: ", alimento1carbohidratos);
+          console.log("Los carbohidratos del tercer alimento son: ", alimento3carbohidratos);
+    
+          console.log("Carbohidratos restantes para el segundo alimento: ", carbohidratosRestantes);
+      
+          if (carbohidratosRestantes < 0) {
+              throw new Error("El total de carbohidratos de los dos primeros alimentos excede el objetivo. Ajusta las cantidades.");
+          }
+      
+          let porcentajeRepresentado1 = alimento1carbohidratos / carbohidratosRestantes;
+
+          let porcentajeRepresentado3 = alimento3carbohidratos / carbohidratosRestantes;
+          console.log("El porcentaje representado1 es de: ", porcentajeRepresentado1);
+          console.log("El porcentaje representado3 es de: ", porcentajeRepresentado3);
+      
+          let proporcionSegundoCarbo = 1 - (porcentajeRepresentado1 + porcentajeRepresentado3 );
+          console.log("Proporción del segundo alimento: ", proporcionSegundoCarbo);
+      
+          if (Math.abs(porcentajeRepresentado1 + porcentajeRepresentado3 +  proporcionSegundoCarbo - 1) > 0.0001) {
+              throw new Error("Error de cálculo en las proporciones. Revisa los valores ingresados.");
+          }
+      
+          segundoAlimento.cantidad = proporcionSegundoCarbo;
+          primerAlimento.cantidad = porcentajeRepresentado1;
+          tercerAlimento.cantidad = porcentajeRepresentado3;
+      
+           porcentajeAlimento1 = primerAlimento.cantidad;
+           porcentajeAlimento2 = segundoAlimento.cantidad;
+           porcentajeAlimento3 = tercerAlimento.cantidad;
+      
+          console.log("Porcentaje alimento 1: " + porcentajeAlimento1);
+          console.log("Porcentaje alimento 2: " + porcentajeAlimento2);
+          console.log("Porcentaje alimento 3: " + porcentajeAlimento3);
+      }
+      
+      else if (primerAlimento.cantidad == 0 && segundoAlimento.cantidad > 0 && tercerAlimento.cantidad > 0) {
+        console.log("Objetivo carbos: " + objetivo.carbohidratos);
+        console.log("Carbos total: " + carbohidratosTotal);
+    
+        let alimento2carbohidratos = segundoAlimento.cantidad * alimento2.carbohidratos;
+        let alimento3carbohidratos = tercerAlimento.cantidad * alimento3.carbohidratos;
+    
+        console.log("Los carbohidratos del segundo alimento son: ", alimento2carbohidratos);
+        console.log("Los carbohidratos del tercer alimento son: ", alimento3carbohidratos);
+
+    
+        if (carbohidratosRestantes < 0) {
+            throw new Error("El total de carbohidratos de los dos alimentos excede el objetivo. Ajusta las cantidades.");
+        }
+
+        let porcentajeRepresentado2 = alimento2carbohidratos / carbohidratosRestantes;
+
+        let porcentajeRepresentado3 = alimento3carbohidratos / carbohidratosRestantes;
+
+        console.log("El porcentaje representado2 es de: ", porcentajeRepresentado2);
+        console.log("El porcentaje representado3 es de: ", porcentajeRepresentado3);
+
+        let proporcionPrimerCarbo = 1 - (porcentajeRepresentado2 + porcentajeRepresentado3 );
+        console.log("Proporción del primer alimento: ", proporcionPrimerCarbo);
+
+
+        if (Math.abs(proporcionPrimerCarbo + porcentajeRepresentado3 +  porcentajeRepresentado2 - 1) > 0.0001) {
+          throw new Error("Error de cálculo en las proporciones. Revisa los valores ingresados.");
+      }
+    
+    
+        console.log("Carbohidratos del primer alimento después de asignar la cantidad restante: ", primerAlimento.cantidad);
+    
+         porcentajeAlimento1 = proporcionPrimerCarbo
+         porcentajeAlimento2 = porcentajeRepresentado2
+         porcentajeAlimento3 = porcentajeRepresentado3
+    
+        console.log("Porcentaje alimento 1: " + porcentajeAlimento1);
+        console.log("Porcentaje alimento 2: " + porcentajeAlimento2);
+        console.log("Porcentaje alimento 3: " + porcentajeAlimento3);
+    }
+    
+   
+ 
+              }
+              else if (alimentosProteACuadrar.length == 0) {
+               alimento1 = alimentosProteicos[Math.floor(Math.random() * alimentosProteicos.length)];
+               console.log("El alimento 1 es " , alimento1)
+               alimento2 = combinacionDameProteRandom(alimento1.nombre)
+               console.log("El nombre del alimento 2 es " , alimento2)
+               alimento2 = alimentos.find(alimen => 
+               alimen.nombre.toLowerCase() === alimento2.toLowerCase()
+ 
+               );
+        
+                 
+ 
+              }
+            
+ 
+          } while (alimento1 === alimento2); // Asegura que los dos alimentos sean diferentes2
+
+
+         console.log("Veremossss" , + " los porcentajes son" )
+         console.log(porcentajeAlimento1)
+         console.log(porcentajeAlimento2)
+         console.log(porcentajeAlimento3)
+
+         const carbosAlimento1 = objetivo.carbohidratos * porcentajeAlimento1;
+         const carbosAlimento2 = objetivo.carbohidratos * porcentajeAlimento2;
+         const carbosAlimento3 = objetivo.carbohidratos * porcentajeAlimento3;
+     
+         const cantidadNecesaria1 = (carbosAlimento1 / alimento1.carbohidratos);
+         const cantidadNecesaria2 = (carbosAlimento2 / alimento2.carbohidratos);
+         const cantidadNecesaria3 = (carbosAlimento3 / alimento3.carbohidratos);
+         
+         // Agregar los alimentos con la cantidad ajustada a las totales
+         proteinaTotal  += (alimento1.proteina * cantidadNecesaria1) 
+         + (alimento2.proteina * cantidadNecesaria2) 
+         + (alimento3.proteina * cantidadNecesaria3);
+         
+         carbohidratosTotal += carbosAlimento1 + carbosAlimento2 + carbosAlimento3
+         
+         grasasTotal += (alimento1.grasas * cantidadNecesaria1) 
+                      + (alimento2.grasas * cantidadNecesaria2) 
+                      + (alimento3.grasas * cantidadNecesaria3);
+         
+         caloriasTotal += (alimento1.calorias * cantidadNecesaria1) 
+                        + (alimento2.calorias * cantidadNecesaria2) 
+                        + (alimento3.calorias * cantidadNecesaria3);
+         
+
+         if(grasasTotal <= objetivo.grasas) {
+       
+         procesarAlimentosCarbohidratos = false;
+         combinacion.push({ 
+          nombre: alimento1.nombre, 
+          cantidad: cantidadNecesaria1, 
+          proteina: alimento1.proteina * cantidadNecesaria1, 
+          carbohidratos: alimento1.carbohidratos * cantidadNecesaria1, 
+          grasas: alimento1.grasas * cantidadNecesaria1, 
+          calorias: alimento1.calorias * cantidadNecesaria1  
+        });
+        
+        combinacion.push({ 
+          nombre: alimento2.nombre, 
+          cantidad: cantidadNecesaria2, 
+          proteina: alimento2.proteina * cantidadNecesaria2, 
+          carbohidratos: alimento2.carbohidratos * cantidadNecesaria2, 
+          grasas: alimento2.grasas * cantidadNecesaria2, 
+          calorias: alimento2.calorias * cantidadNecesaria2  
+        });
+        
+        // Agregar el tercer alimento a la combinación
+        combinacion.push({ 
+          nombre: alimento3.nombre, 
+          cantidad: cantidadNecesaria3, 
+          proteina: alimento3.proteina * cantidadNecesaria3, 
+          carbohidratos: alimento3.carbohidratos * cantidadNecesaria3, 
+          grasas: alimento3.grasas * cantidadNecesaria3, 
+          calorias: alimento3.calorias * cantidadNecesaria3  
+        });
+        
+        console.log("IMPRIMIMOS LA COMBINACIÓN DE ALIMENTOS PROTEICOSSSSSSSSS: ", combinacion);
+        
+        console.log("LOS ALIMENTOS PROTEICOS ELEGIDOS SONNNNNN:");
+        
+        // Agregar los alimentos a la lista de alimentos seleccionados
+        alimentosChSeleccionados.push({ 
+          nombre: alimento1.nombre, 
+          cantidad: cantidadNecesaria1, 
+          proteina: alimento1.proteina * cantidadNecesaria1, 
+          carbohidratos: alimento1.carbohidratos * cantidadNecesaria1, 
+          grasas: alimento1.grasas * cantidadNecesaria1, 
+          calorias: alimento1.calorias * cantidadNecesaria1,
+          unidadCalorica: alimento1.calorias,
+          unidadProteica: alimento1.proteina,
+          unidadCarbo: alimento1.carbohidratos,
+          unidadGrasas: alimento1.grasas
+        });
+        
+        alimentosChSeleccionados.push({ 
+          nombre: alimento2.nombre, 
+          cantidad: cantidadNecesaria2, 
+          proteina: alimento2.proteina * cantidadNecesaria2, 
+          carbohidratos: alimento2.carbohidratos * cantidadNecesaria2, 
+          grasas: alimento2.grasas * cantidadNecesaria2, 
+          calorias: alimento2.calorias * cantidadNecesaria2,
+          unidadCalorica: alimento2.calorias,
+          unidadProteica: alimento2.proteina,
+          unidadCarbo: alimento2.carbohidratos,
+          unidadGrasas: alimento2.grasas
+        });
+        
+        // Agregar el tercer alimento a la lista de seleccionados
+        alimentosChSeleccionados.push({ 
+          nombre: alimento3.nombre, 
+          cantidad: cantidadNecesaria3, 
+          proteina: alimento3.proteina * cantidadNecesaria3, 
+          carbohidratos: alimento3.carbohidratos * cantidadNecesaria3, 
+          grasas: alimento3.grasas * cantidadNecesaria3, 
+          calorias: alimento3.calorias * cantidadNecesaria3,
+          unidadCalorica: alimento3.calorias,
+          unidadProteica: alimento3.proteina,
+          unidadCarbo: alimento3.carbohidratos,
+          unidadGrasas: alimento3.grasas
+        });
+        
+         console.log(alimentosChSeleccionados)
+         }
+         else {
+             console.log("Vamos a intentar nuevamente")
+             intentos++;
+             procesarAlimentosCarbohidratos = true;
+             proteinaTotal = 0;
+             carbohidratosTotal = 0;
+             grasasTotal = 0;
+             caloriasTotal = 0;
+             combinacion = [];
+             if(intentos > 10) {
+                 throw new Error("No se pudo encontrar una combinación con los alimentos proteicos seleccionados, elegi otros alimentos " ,alimento1);
+             }
+
+         }   
+
+
+
+        
+
+        }
+
+        else if(cantidadAlimentosCarbohidratos == 4) {
+
+          console.log("La cantidad de alimentos de ch es 3")
+     
+          console.log("Hasta aca va bien eh")
+          let alimento1, alimento2, alimento3, alimento4;
+
+          let porcentajeAlimento1 = Math.random();
+          let porcentajeAlimento2 = Math.random() * (1 - porcentajeAlimento1);
+          let porcentajeAlimento3 = Math.random() * (1 - (porcentajeAlimento1 + porcentajeAlimento2));
+          let porcentajeAlimento4 = 1 - (porcentajeAlimento1 + porcentajeAlimento2 + porcentajeAlimento3); // Ajuste final
+      
+          do {
+              if(alimentosChACuadrar.length == 1) {
+               console.log("Esta perfeecto , le pasamos solo un alimento proteico-------------------------------------------------")   
+              alimento1 = alimentos.find(alim => alim.nombre === alimentosProteACuadrar[0].nombre); 
+              alimento2 = combinacionDameCarbosSecundarioRandom(alimento1.nombre)      
+              }  
+              else if(alimentosChACuadrar.length ==2) {
+               /// nada por ahora
+              } 
+              else if(alimentosChACuadrar.length == 3) {
+                console.log("La cantidad de alimentos a cuadrar es de 3")
+ 
+              console.log("Entra bien por aca")
+              alimento1 = alimentos.find(alim => alim.nombre === alimentosChACuadrar[0].nombre);    
+              alimento2 = alimentos.find(alim => alim.nombre === alimentosChACuadrar[1].nombre);      
+              alimento3 = alimentos.find(alim => alim.nombre === alimentosChACuadrar[2].nombre);      
+ 
+              let primerAlimento = alimentosChACuadrar[0];
+              let segundoAlimento = alimentosChACuadrar[1];
+              let tercerAlimento = alimentosChACuadrar[2];
+              console.log("LOS ALIMENTOS CH SONNNNN")
+              console.log(primerAlimento)
+              console.log(segundoAlimento)
+              console.log(tercerAlimento)
+              
+
+              let carbohidratosRestantes = (objetivo.carbohidratos - carbohidratosTotal);
+
+ 
+              ////Si el primer alimento a cuadrar tiene cantidad > 0              
+              if(primerAlimento.cantidad > 0 && segundoAlimento.cantidad == 0 && tercerAlimento.cantidad == 0) {
+                  console.log("Objetivo carbos " + objetivo.carbohidratos)
+                  console.log("Carbos total" + carbohidratosTotal
+
+                  )
+               let alimento1carbohidratos = primerAlimento.cantidad * alimento1.carbohidratos;
+               console.log("Los carbohidratos del primer alimento son " , alimento1carbohidratos)
+               let porcentajeRepresentado = (alimento1carbohidratos / carbohidratosRestantes) 
+               console.log("El porcentaje representado es de " , porcentajeRepresentado)
+ 
+               if(alimento1carbohidratos > carbohidratosRestantes) {
+               throw new Error("Volve a ingresar otro alimento de carbohidratos que no sea " + alimento1.nombre + " hubo un error");
+               
+               }
+     
+               let proporcionRepresentada = porcentajeRepresentado; // 0.38
+               let proporcionSegundoCarbo = Math.random() * (1 - proporcionRepresentada);  // Genera un valor entre 0 y (1 - proporcionRepresentada)
+               let proporcionTercerCarbo = 1 - (proporcionRepresentada + proporcionSegundoCarbo);  // Completa la suma a 1
+ 
+               console.log(`Porcentaje de calorías representadas por el primer alimento: ${proporcionRepresentada}`);
+               console.log(`Porcentaje de calorías restantes para el segundo alimento: ${proporcionSegundoCarbo}`);
+               console.log("Proporción Tercer Carbo:", proporcionTercerCarbo.toFixed(3));
+ 
+               if (Math.abs(proporcionRepresentada + proporcionSegundoCarbo + proporcionTercerCarbo - 1) > 0.0001) {
+                   throw new Error("Error de cálculo en las proporciones. Revisa los valores ingresados.");
+               }
+           
+               primerAlimento.cantidad = proporcionRepresentada;
+               segundoAlimento.cantidad = proporcionSegundoCarbo;
+               tercerAlimento.cantidad = proporcionTercerCarbo
+              
+                porcentajeAlimento1 = primerAlimento.cantidad 
+                porcentajeAlimento2 = segundoAlimento.cantidad 
+                porcentajeAlimento3 = tercerAlimento.cantidad;
+ 
+               console.log("Porcentaje alimento 1 " + porcentajeAlimento1)
+               console.log("Porcentaje alimento 2 " + porcentajeAlimento2)
+               console.log("Porcentaje alimento 3 " + porcentajeAlimento3)
+              }
+
+              else if (primerAlimento.cantidad == 0 && segundoAlimento.cantidad > 0 && tercerAlimento.cantidad == 0) {
+                console.log("Objetivo carbos: " + objetivo.carbohidratos);
+                console.log("Carbos total: " + carbohidratosTotal);
+                console.log("LOS CARBOHIDRATOS RESTANTES SOOOOOOOOOOOONNNNN ========>" ,carbohidratosRestantes)
+            
+                let alimento2carbohidratos = segundoAlimento.cantidad * alimento2.carbohidratos;
+                console.log("Los carbohidratos del segundo alimento son: ", alimento2carbohidratos);
+            
+                let porcentajeRepresentado = (alimento2carbohidratos / carbohidratosRestantes);
+                console.log("El porcentaje representado es de: ", porcentajeRepresentado);
+            
+                if (alimento2carbohidratos > carbohidratosRestantes) {
+                    throw new Error("Vuelve a ingresar otro alimento de carbohidratos que no sea " + alimento2.nombre + ", hubo un error");
+                }
+            
+                let proporcionRepresentada = porcentajeRepresentado;
+                let proporcionPrimerCarbo = Math.random() * (1 - proporcionRepresentada); // Genera valor entre 0 y (1 - proporcionRepresentada)
+                let proporcionTercerCarbo = 1 - (proporcionRepresentada + proporcionPrimerCarbo); // Completa la suma a 1
+            
+                console.log(`Porcentaje de calorías representadas por el segundo alimento: ${proporcionRepresentada}`);
+                console.log(`Porcentaje de calorías restantes para el primer alimento: ${proporcionPrimerCarbo}`);
+                console.log("Proporción Tercer Carbo:", proporcionTercerCarbo.toFixed(3));
+            
+                if (Math.abs(proporcionRepresentada + proporcionPrimerCarbo + proporcionTercerCarbo - 1) > 0.0001) {
+                    throw new Error("Error de cálculo en las proporciones. Revisa los valores ingresados.");
+                }
+            
+                segundoAlimento.cantidad = proporcionRepresentada;
+                primerAlimento.cantidad = proporcionPrimerCarbo;
+                tercerAlimento.cantidad = proporcionTercerCarbo;
+            
+                 porcentajeAlimento2 = segundoAlimento.cantidad;
+                 porcentajeAlimento1 = primerAlimento.cantidad;
+                 porcentajeAlimento3 = tercerAlimento.cantidad;
+            
+                console.log("Porcentaje alimento 2: " + porcentajeAlimento2);
+                console.log("Porcentaje alimento 1: " + porcentajeAlimento1);
+                console.log("Porcentaje alimento 3: " + porcentajeAlimento3);
+            }
+            
+ 
+            else if (primerAlimento.cantidad == 0 && segundoAlimento.cantidad == 0 && tercerAlimento.cantidad > 0) {
+              console.log("Objetivo carbos: " + objetivo.carbohidratos);
+              console.log("Carbos total: " + carbohidratosTotal);
+          
+              let alimento3carbohidratos = tercerAlimento.cantidad * alimento3.carbohidratos;
+              console.log("Los carbohidratos del tercer alimento son: ", alimento3carbohidratos);
+          
+              let porcentajeRepresentado = (alimento3carbohidratos / carbohidratosRestantes);
+              console.log("El porcentaje representado es de: ", porcentajeRepresentado);
+          
+              if (alimento3carbohidratos > carbohidratosRestantes) {
+                  throw new Error("Vuelve a ingresar otro alimento de carbohidratos que no sea " + alimento3.nombre + ", hubo un error");
+              }
+          
+              let proporcionRepresentada = porcentajeRepresentado;
+              let proporcionPrimerCarbo = Math.random() * (1 - proporcionRepresentada); // Genera valor entre 0 y (1 - proporcionRepresentada)
+              let proporcionSegundoCarbo = 1 - (proporcionRepresentada + proporcionPrimerCarbo); // Completa la suma a 1
+          
+              console.log(`Porcentaje de calorías representadas por el tercer alimento: ${proporcionRepresentada}`);
+              console.log(`Porcentaje de calorías restantes para el primer alimento: ${proporcionPrimerCarbo}`);
+              console.log("Proporción Segundo Carbo:", proporcionSegundoCarbo.toFixed(3));
+          
+              if (Math.abs(proporcionRepresentada + proporcionPrimerCarbo + proporcionSegundoCarbo - 1) > 0.0001) {
+                  throw new Error("Error de cálculo en las proporciones. Revisa los valores ingresados.");
+              }
+          
+              tercerAlimento.cantidad = proporcionRepresentada;
+              primerAlimento.cantidad = proporcionPrimerCarbo;
+              segundoAlimento.cantidad = proporcionSegundoCarbo;
+          
+               porcentajeAlimento3 = tercerAlimento.cantidad;
+               porcentajeAlimento1 = primerAlimento.cantidad;
+               porcentajeAlimento2 = segundoAlimento.cantidad;
+          
+              console.log("Porcentaje alimento 3: " + porcentajeAlimento3);
+              console.log("Porcentaje alimento 1: " + porcentajeAlimento1);
+              console.log("Porcentaje alimento 2: " + porcentajeAlimento2);
+          }
+          
+         
+          else if (primerAlimento.cantidad > 0 && segundoAlimento.cantidad > 0 && tercerAlimento.cantidad == 0) {
+            console.log("Objetivo carbos: " + objetivo.carbohidratos);
+            console.log("Carbos total: " + carbohidratosTotal);
+        
+            let alimento1carbohidratos = primerAlimento.cantidad * alimento1.carbohidratos;
+            let alimento2carbohidratos = segundoAlimento.cantidad * alimento2.carbohidratos;
+        
+            console.log("Los carbohidratos del primer alimento son: ", alimento1carbohidratos);
+            console.log("Los carbohidratos del segundo alimento son: ", alimento2carbohidratos);
+        
+            console.log("Carbohidratos restantes para el tercer alimento: ", carbohidratosRestantes);
+        
+            if (carbohidratosRestantes < 0) {
+                throw new Error("El total de carbohidratos de los dos primeros alimentos excede el objetivo. Ajusta las cantidades.");
+            }
+        
+            let porcentajeRepresentado1 = alimento1carbohidratos / carbohidratosRestantes;
+            let porcentajeRepresentado2 = alimento2carbohidratos / carbohidratosRestantes;
+
+            console.log("El porcentaje representado del primer ch es de: ", porcentajeRepresentado1);
+            console.log("El porcentaje representado del segundo ch es de: ", porcentajeRepresentado2);
+        
+            let proporcionTercerCarbo = 1 - (porcentajeRepresentado2 + porcentajeRepresentado1);
+            console.log("Proporción del tercer alimento: ", proporcionTercerCarbo);
+        
+            if (Math.abs(porcentajeRepresentado1 +  porcentajeRepresentado2 + proporcionTercerCarbo - 1) > 0.0001) {
+                throw new Error("Error de cálculo en las proporciones. Revisa los valores ingresados.");
+            }
+        
+            tercerAlimento.cantidad = proporcionTercerCarbo;
+            primerAlimento.cantidad = porcentajeRepresentado1;
+            segundoAlimento.cantidad = porcentajeRepresentado2;
+        
+             porcentajeAlimento1 = primerAlimento.cantidad;
+             porcentajeAlimento2 = segundoAlimento.cantidad;
+             porcentajeAlimento3 = tercerAlimento.cantidad;
+        
+            console.log("Porcentaje alimento 1: " + porcentajeAlimento1);
+            console.log("Porcentaje alimento 2: " + porcentajeAlimento2);
+            console.log("Porcentaje alimento 3: " + porcentajeAlimento3);
+        }
+        
+       
+        else if (primerAlimento.cantidad > 0 && segundoAlimento.cantidad == 0 && tercerAlimento.cantidad > 0) {
+          console.log("Objetivo carbos: " + objetivo.carbohidratos);
+          console.log("Carbos total: " + carbohidratosTotal);
+      
+          let alimento1carbohidratos = primerAlimento.cantidad * alimento1.carbohidratos;
+          let alimento3carbohidratos = tercerAlimento.cantidad * alimento3.carbohidratos;
+      
+          console.log("Los carbohidratos del primer alimento son: ", alimento1carbohidratos);
+          console.log("Los carbohidratos del tercer alimento son: ", alimento3carbohidratos);
+    
+          console.log("Carbohidratos restantes para el segundo alimento: ", carbohidratosRestantes);
+      
+          if (carbohidratosRestantes < 0) {
+              throw new Error("El total de carbohidratos de los dos primeros alimentos excede el objetivo. Ajusta las cantidades.");
+          }
+      
+          let porcentajeRepresentado1 = alimento1carbohidratos / carbohidratosRestantes;
+
+          let porcentajeRepresentado3 = alimento3carbohidratos / carbohidratosRestantes;
+          console.log("El porcentaje representado1 es de: ", porcentajeRepresentado1);
+          console.log("El porcentaje representado3 es de: ", porcentajeRepresentado3);
+      
+          let proporcionSegundoCarbo = 1 - (porcentajeRepresentado1 + porcentajeRepresentado3 );
+          console.log("Proporción del segundo alimento: ", proporcionSegundoCarbo);
+      
+          if (Math.abs(porcentajeRepresentado1 + porcentajeRepresentado3 +  proporcionSegundoCarbo - 1) > 0.0001) {
+              throw new Error("Error de cálculo en las proporciones. Revisa los valores ingresados.");
+          }
+      
+          segundoAlimento.cantidad = proporcionSegundoCarbo;
+          primerAlimento.cantidad = porcentajeRepresentado1;
+          tercerAlimento.cantidad = porcentajeRepresentado3;
+      
+           porcentajeAlimento1 = primerAlimento.cantidad;
+           porcentajeAlimento2 = segundoAlimento.cantidad;
+           porcentajeAlimento3 = tercerAlimento.cantidad;
+      
+          console.log("Porcentaje alimento 1: " + porcentajeAlimento1);
+          console.log("Porcentaje alimento 2: " + porcentajeAlimento2);
+          console.log("Porcentaje alimento 3: " + porcentajeAlimento3);
+      }
+      
+      else if (primerAlimento.cantidad == 0 && segundoAlimento.cantidad > 0 && tercerAlimento.cantidad > 0) {
+        console.log("Objetivo carbos: " + objetivo.carbohidratos);
+        console.log("Carbos total: " + carbohidratosTotal);
+    
+        let alimento2carbohidratos = segundoAlimento.cantidad * alimento2.carbohidratos;
+        let alimento3carbohidratos = tercerAlimento.cantidad * alimento3.carbohidratos;
+    
+        console.log("Los carbohidratos del segundo alimento son: ", alimento2carbohidratos);
+        console.log("Los carbohidratos del tercer alimento son: ", alimento3carbohidratos);
+
+    
+        if (carbohidratosRestantes < 0) {
+            throw new Error("El total de carbohidratos de los dos alimentos excede el objetivo. Ajusta las cantidades.");
+        }
+
+        let porcentajeRepresentado2 = alimento2carbohidratos / carbohidratosRestantes;
+
+        let porcentajeRepresentado3 = alimento3carbohidratos / carbohidratosRestantes;
+
+        console.log("El porcentaje representado2 es de: ", porcentajeRepresentado2);
+        console.log("El porcentaje representado3 es de: ", porcentajeRepresentado3);
+
+        let proporcionPrimerCarbo = 1 - (porcentajeRepresentado2 + porcentajeRepresentado3 );
+        console.log("Proporción del primer alimento: ", proporcionPrimerCarbo);
+
+
+        if (Math.abs(proporcionPrimerCarbo + porcentajeRepresentado3 +  porcentajeRepresentado2 - 1) > 0.0001) {
+          throw new Error("Error de cálculo en las proporciones. Revisa los valores ingresados.");
+      }
+    
+    
+        console.log("Carbohidratos del primer alimento después de asignar la cantidad restante: ", primerAlimento.cantidad);
+    
+         porcentajeAlimento1 = proporcionPrimerCarbo
+         porcentajeAlimento2 = porcentajeRepresentado2
+         porcentajeAlimento3 = porcentajeRepresentado3
+    
+        console.log("Porcentaje alimento 1: " + porcentajeAlimento1);
+        console.log("Porcentaje alimento 2: " + porcentajeAlimento2);
+        console.log("Porcentaje alimento 3: " + porcentajeAlimento3);
+    }
+    
+   
+ 
+              }
+
+              else if(alimentosChACuadrar.length == 4) {
+
+
+                console.log("La cantidad de alimentos a cuadrar es de 3")
+ 
+              console.log("Entra bien por aca")
+              alimento1 = alimentos.find(alim => alim.nombre === alimentosChACuadrar[0].nombre);    
+              alimento2 = alimentos.find(alim => alim.nombre === alimentosChACuadrar[1].nombre);      
+              alimento3 = alimentos.find(alim => alim.nombre === alimentosChACuadrar[2].nombre);    
+              alimento4 = alimentos.find(alim => alim.nombre === alimentosChACuadrar[3].nombre);   
+ 
+              let primerAlimento = alimentosChACuadrar[0];
+              let segundoAlimento = alimentosChACuadrar[1];
+              let tercerAlimento = alimentosChACuadrar[2];
+              let cuartoAlimento = alimentosChACuadrar[3]
+
+              console.log("LOS ALIMENTOS CH SONNNNN")
+              console.log(primerAlimento)
+              console.log(segundoAlimento)
+              console.log(tercerAlimento)
+              console.log(cuartoAlimento)
+            console.log("Los carbos restantes son " + carbohidratosRestantes)
+         
+
+              if (
+                primerAlimento.cantidad > 0 &&
+                segundoAlimento.cantidad == 0 &&
+                tercerAlimento.cantidad == 0 &&
+                cuartoAlimento.cantidad == 0
+              ) {
+                console.log("Objetivo carbos: " + objetivo.carbohidratos);
+                console.log("Carbos total: " + carbohidratosTotal);
+              
+                let alimento1carbohidratos = primerAlimento.cantidad * alimento1.carbohidratos;
+                console.log("Los carbohidratos del primer alimento son:", alimento1carbohidratos);
+                
+                let porcentajeRepresentado = alimento1carbohidratos / carbohidratosRestantes;
+                console.log("El porcentaje representado es de:", porcentajeRepresentado);
+       
+              
+                if (alimento1carbohidratos > carbohidratosRestantes) {
+                  throw new Error("Vuelve a ingresar otro alimento de carbohidratos que no sea " + alimento1.nombre + ". Hubo un error.");
+                }
+              
+                // Genera las proporciones para los cuatro alimentos
+                let proporcionRepresentada = porcentajeRepresentado; // Primer alimento
+                let proporcionSegundoCarbo = Math.random() * (1 - proporcionRepresentada); // Segundo alimento
+                let proporcionTercerCarbo = Math.random() * (1 - (proporcionRepresentada + proporcionSegundoCarbo)); // Tercer alimento
+                let proporcionCuartoCarbo = 1 - (proporcionRepresentada + proporcionSegundoCarbo + proporcionTercerCarbo); // Cuarto alimento
+              
+                // Imprime los valores de las proporciones
+                console.log(`Porcentaje de carbohidratos representados por el primer alimento: ${proporcionRepresentada.toFixed(3)}`);
+                console.log(`Porcentaje de carbohidratos representados por el segundo alimento: ${proporcionSegundoCarbo.toFixed(3)}`);
+                console.log(`Porcentaje de carbohidratos representados por el tercer alimento: ${proporcionTercerCarbo.toFixed(3)}`);
+                console.log(`Porcentaje de carbohidratos representados por el cuarto alimento: ${proporcionCuartoCarbo.toFixed(3)}`);
+              
+              
+                // Validación para asegurar que la suma de proporciones es exactamente 1
+                if (Math.abs(proporcionRepresentada + proporcionSegundoCarbo + proporcionTercerCarbo + proporcionCuartoCarbo - 1) > 0.0001) {
+                  throw new Error("Error de cálculo en las proporciones. Revisa los valores ingresados.");
+                }
+            
+
+                porcentajeAlimento1 =  proporcionRepresentada;
+                porcentajeAlimento2 = proporcionSegundoCarbo
+                porcentajeAlimento3 = proporcionTercerCarbo
+                porcentajeAlimento4  = proporcionCuartoCarbo
+              
+                // Imprime los porcentajes finales
+                console.log("Porcentaje alimento 1:", primerAlimento.cantidad.toFixed(3));
+                console.log("Porcentaje alimento 2:", segundoAlimento.cantidad.toFixed(3));
+                console.log("Porcentaje alimento 3:", tercerAlimento.cantidad.toFixed(3));
+                console.log("Porcentaje alimento 4:", cuartoAlimento.cantidad.toFixed(3));
+               
+              }
+              
+              else if (primerAlimento.cantidad == 0 && segundoAlimento.cantidad > 0 && tercerAlimento.cantidad == 0 && cuartoAlimento.cantidad == 0) {
+                console.log("Objetivo carbos: " + objetivo.carbohidratos);
+                console.log("Carbos total: " + carbohidratosTotal);
+              
+                let alimento2carbohidratos = segundoAlimento.cantidad * alimento2.carbohidratos;
+                console.log("Los carbohidratos del segundo alimento son:", alimento2carbohidratos);
+              
+                let porcentajeRepresentado = alimento2carbohidratos / carbohidratosRestantes;
+                console.log("El porcentaje representado es de:", porcentajeRepresentado);
+              
+                if (alimento2carbohidratos > carbohidratosRestantes) {
+                  throw new Error("Vuelve a ingresar otro alimento de carbohidratos que no sea " + alimento2.nombre + ". Hubo un error.");
+                }
+              
+                // Genera las proporciones para los cuatro alimentos
+                let proporcionRepresentada = porcentajeRepresentado; // Segundo alimento
+                let proporcionPrimerCarbo = Math.random() * (1 - proporcionRepresentada); // Primer alimento
+                let proporcionTercerCarbo = Math.random() * (1 - (proporcionRepresentada + proporcionPrimerCarbo)); // Tercer alimento
+                let proporcionCuartoCarbo = 1 - (proporcionRepresentada + proporcionPrimerCarbo + proporcionTercerCarbo); // Cuarto alimento
+              
+                // Imprime los valores de las proporciones
+                console.log(`Porcentaje de carbohidratos representados por el segundo alimento: ${proporcionRepresentada.toFixed(3)}`);
+                console.log(`Porcentaje de carbohidratos representados por el primer alimento: ${proporcionPrimerCarbo.toFixed(3)}`);
+                console.log(`Porcentaje de carbohidratos representados por el tercer alimento: ${proporcionTercerCarbo.toFixed(3)}`);
+                console.log(`Porcentaje de carbohidratos representados por el cuarto alimento: ${proporcionCuartoCarbo.toFixed(3)}`);
+              
+                // Validación para asegurar que la suma de proporciones es exactamente 1
+                if (Math.abs(proporcionRepresentada + proporcionPrimerCarbo + proporcionTercerCarbo + proporcionCuartoCarbo - 1) > 0.0001) {
+                  throw new Error("Error de cálculo en las proporciones. Revisa los valores ingresados.");
+                }
+              
+                porcentajeAlimento1 = proporcionPrimerCarbo;
+                porcentajeAlimento2 = proporcionRepresentada;
+                porcentajeAlimento3 = proporcionTercerCarbo;
+                porcentajeAlimento4 = proporcionCuartoCarbo;
+              
+                // Imprime los porcentajes finales
+                console.log("Porcentaje alimento 1:", primerAlimento.cantidad.toFixed(3));
+                console.log("Porcentaje alimento 2:", segundoAlimento.cantidad.toFixed(3));
+                console.log("Porcentaje alimento 3:", tercerAlimento.cantidad.toFixed(3));
+                console.log("Porcentaje alimento 4:", cuartoAlimento.cantidad.toFixed(3));
+              }
+              
+            
+ 
+              else if (primerAlimento.cantidad == 0 && segundoAlimento.cantidad == 0 && tercerAlimento.cantidad > 0 && cuartoAlimento.cantidad == 0) {
+                console.log("Objetivo carbos: " + objetivo.carbohidratos);
+                console.log("Carbos total: " + carbohidratosTotal);
+              
+                let alimento3carbohidratos = tercerAlimento.cantidad * alimento3.carbohidratos;
+                console.log("Los carbohidratos del tercer alimento son:", alimento3carbohidratos);
+              
+                let porcentajeRepresentado = alimento3carbohidratos / carbohidratosRestantes;
+                console.log("El porcentaje representado es de:", porcentajeRepresentado);
+              
+                if (alimento3carbohidratos > carbohidratosRestantes) {
+                  throw new Error("Vuelve a ingresar otro alimento de carbohidratos que no sea " + alimento3.nombre + ". Hubo un error.");
+                }
+              
+                // Genera las proporciones para los cuatro alimentos
+                let proporcionRepresentada = porcentajeRepresentado; // Tercer alimento
+                let proporcionPrimerCarbo = Math.random() * (1 - proporcionRepresentada); // Primer alimento
+                let proporcionSegundoCarbo = Math.random() * (1 - (proporcionRepresentada + proporcionPrimerCarbo)); // Segundo alimento
+                let proporcionCuartoCarbo = 1 - (proporcionRepresentada + proporcionPrimerCarbo + proporcionSegundoCarbo); // Cuarto alimento
+              
+                // Imprime los valores de las proporciones
+                console.log(`Porcentaje de carbohidratos representados por el tercer alimento: ${proporcionRepresentada.toFixed(3)}`);
+                console.log(`Porcentaje de carbohidratos representados por el primer alimento: ${proporcionPrimerCarbo.toFixed(3)}`);
+                console.log(`Porcentaje de carbohidratos representados por el segundo alimento: ${proporcionSegundoCarbo.toFixed(3)}`);
+                console.log(`Porcentaje de carbohidratos representados por el cuarto alimento: ${proporcionCuartoCarbo.toFixed(3)}`);
+              
+                // Validación para asegurar que la suma de proporciones es exactamente 1
+                if (Math.abs(proporcionRepresentada + proporcionPrimerCarbo + proporcionSegundoCarbo + proporcionCuartoCarbo - 1) > 0.0001) {
+                  throw new Error("Error de cálculo en las proporciones. Revisa los valores ingresados.");
+                }
+              
+                porcentajeAlimento1 = proporcionPrimerCarbo;
+                porcentajeAlimento2 = proporcionSegundoCarbo;
+                porcentajeAlimento3 = proporcionRepresentada;
+                porcentajeAlimento4 = proporcionCuartoCarbo;
+              
+                // Imprime los porcentajes finales
+                console.log("Porcentaje alimento 1:", primerAlimento.cantidad.toFixed(3));
+                console.log("Porcentaje alimento 2:", segundoAlimento.cantidad.toFixed(3));
+                console.log("Porcentaje alimento 3:", tercerAlimento.cantidad.toFixed(3));
+                console.log("Porcentaje alimento 4:", cuartoAlimento.cantidad.toFixed(3));
+              }
+              
+          
+         
+              else if (primerAlimento.cantidad == 0 && segundoAlimento.cantidad == 0 && tercerAlimento.cantidad == 0 && cuartoAlimento.cantidad > 0) {
+                console.log("Objetivo carbos: " + objetivo.carbohidratos);
+                console.log("Carbos total: " + carbohidratosTotal);
+              
+                let alimento4carbohidratos = cuartoAlimento.cantidad * alimento4.carbohidratos;
+                console.log("Los carbohidratos del cuarto alimento son:", alimento4carbohidratos);
+              
+                let porcentajeRepresentado = alimento4carbohidratos / carbohidratosRestantes;
+                console.log("El porcentaje representado es de:", porcentajeRepresentado);
+              
+                if (alimento4carbohidratos > carbohidratosRestantes) {
+                  throw new Error("Vuelve a ingresar otro alimento de carbohidratos que no sea " + alimento4.nombre + ". Hubo un error.");
+                }
+              
+                // Genera las proporciones para los cuatro alimentos
+                let proporcionRepresentada = porcentajeRepresentado; // Cuarto alimento
+                let proporcionPrimerCarbo = Math.random() * (1 - proporcionRepresentada); // Primer alimento
+                let proporcionSegundoCarbo = Math.random() * (1 - (proporcionRepresentada + proporcionPrimerCarbo)); // Segundo alimento
+                let proporcionTercerCarbo = 1 - (proporcionRepresentada + proporcionPrimerCarbo + proporcionSegundoCarbo); // Tercer alimento
+              
+                // Imprime los valores de las proporciones
+                console.log(`Porcentaje de carbohidratos representados por el cuarto alimento: ${proporcionRepresentada.toFixed(3)}`);
+                console.log(`Porcentaje de carbohidratos representados por el primer alimento: ${proporcionPrimerCarbo.toFixed(3)}`);
+                console.log(`Porcentaje de carbohidratos representados por el segundo alimento: ${proporcionSegundoCarbo.toFixed(3)}`);
+                console.log(`Porcentaje de carbohidratos representados por el tercer alimento: ${proporcionTercerCarbo.toFixed(3)}`);
+              
+                // Validación para asegurar que la suma de proporciones es exactamente 1
+                if (Math.abs(proporcionRepresentada + proporcionPrimerCarbo + proporcionSegundoCarbo + proporcionTercerCarbo - 1) > 0.0001) {
+                  throw new Error("Error de cálculo en las proporciones. Revisa los valores ingresados.");
+                }
+              
+                porcentajeAlimento1 = proporcionPrimerCarbo;
+                porcentajeAlimento2 = proporcionSegundoCarbo;
+                porcentajeAlimento3 = proporcionTercerCarbo;
+                porcentajeAlimento4 = proporcionRepresentada;
+              
+                // Imprime los porcentajes finales
+                console.log("Porcentaje alimento 1:", primerAlimento.cantidad.toFixed(3));
+                console.log("Porcentaje alimento 2:", segundoAlimento.cantidad.toFixed(3));
+                console.log("Porcentaje alimento 3:", tercerAlimento.cantidad.toFixed(3));
+                console.log("Porcentaje alimento 4:", cuartoAlimento.cantidad.toFixed(3));
+              }
+              
+        
+       
+              else if (primerAlimento.cantidad > 0 && segundoAlimento.cantidad > 0 && tercerAlimento.cantidad == 0 && cuartoAlimento.cantidad == 0) {
+                console.log("Objetivo carbos: " + objetivo.carbohidratos);
+                console.log("Carbos total: " + carbohidratosTotal);
+              
+                let alimento1carbohidratos = primerAlimento.cantidad * alimento1.carbohidratos;
+                let alimento2carbohidratos = segundoAlimento.cantidad * alimento2.carbohidratos;
+              
+                console.log("Los carbohidratos del primer alimento son:", alimento1carbohidratos);
+                console.log("Los carbohidratos del segundo alimento son:", alimento2carbohidratos);
+              
+                let carbohidratosTotalesSeleccionados = alimento1carbohidratos + alimento2carbohidratos;
+                if (carbohidratosTotalesSeleccionados > carbohidratosRestantes) {
+                  throw new Error("Vuelve a ingresar otros alimentos de carbohidratos. Hubo un error.");
+                }
+              
+                let porcentajeRepresentado1 = alimento1carbohidratos / carbohidratosRestantes;
+                let porcentajeRepresentado2 = alimento2carbohidratos / carbohidratosRestantes;
+              
+                // Imprime los valores de las proporciones
+                console.log(`Porcentaje de carbohidratos representados por el primer alimento: ${porcentajeRepresentado1.toFixed(3)}`);
+                console.log(`Porcentaje de carbohidratos representados por el segundo alimento: ${porcentajeRepresentado2.toFixed(3)}`);
+              
+                let proporcionTercerCarbo = Math.random() * (1 - (porcentajeRepresentado1 + porcentajeRepresentado2));
+                let proporcionCuartoCarbo = 1 - (porcentajeRepresentado1 + porcentajeRepresentado2 + proporcionTercerCarbo);
+              
+                // Validación para asegurar que la suma de proporciones es exactamente 1
+                if (Math.abs(porcentajeRepresentado1 + porcentajeRepresentado2 + proporcionTercerCarbo + proporcionCuartoCarbo - 1) > 0.0001) {
+                  throw new Error("Error de cálculo en las proporciones. Revisa los valores ingresados.");
+                }
+              
+                porcentajeAlimento1 = porcentajeRepresentado1;
+                porcentajeAlimento2 = porcentajeRepresentado2;
+                porcentajeAlimento3 = proporcionTercerCarbo;
+                porcentajeAlimento4 = proporcionCuartoCarbo;
+              
+                // Imprime los porcentajes finales
+                console.log("Porcentaje alimento 1:", porcentajeAlimento1.toFixed(3));
+                console.log("Porcentaje alimento 2:", porcentajeAlimento2.toFixed(3));
+                console.log("Porcentaje alimento 3:", porcentajeAlimento3.toFixed(3));
+                console.log("Porcentaje alimento 4:", porcentajeAlimento4.toFixed(3));
+              }
+              
+      
+              else if (primerAlimento.cantidad > 0 && segundoAlimento.cantidad == 0 && tercerAlimento.cantidad > 0 && cuartoAlimento.cantidad == 0) {
+                console.log("Objetivo carbos: " + objetivo.carbohidratos);
+                console.log("Carbos total: " + carbohidratosTotal);
+              
+                let alimento1carbohidratos = primerAlimento.cantidad * alimento1.carbohidratos;
+                let alimento3carbohidratos = tercerAlimento.cantidad * alimento3.carbohidratos;
+              
+                console.log("Los carbohidratos del primer alimento son:", alimento1carbohidratos);
+                console.log("Los carbohidratos del tercer alimento son:", alimento3carbohidratos);
+              
+                let carbohidratosTotalesSeleccionados = alimento1carbohidratos + alimento3carbohidratos;
+                if (carbohidratosTotalesSeleccionados > carbohidratosRestantes) {
+                  throw new Error("Vuelve a ingresar otros alimentos de carbohidratos. Hubo un error.");
+                }
+              
+                let porcentajeRepresentado1 = alimento1carbohidratos / carbohidratosRestantes;
+                let porcentajeRepresentado3 = alimento3carbohidratos / carbohidratosRestantes;
+              
+                // Imprime los valores de las proporciones
+                console.log(`Porcentaje de carbohidratos representados por el primer alimento: ${porcentajeRepresentado1.toFixed(3)}`);
+                console.log(`Porcentaje de carbohidratos representados por el tercer alimento: ${porcentajeRepresentado3.toFixed(3)}`);
+              
+                let proporcionSegundoCarbo = Math.random() * (1 - (porcentajeRepresentado1 + porcentajeRepresentado3));
+                let proporcionCuartoCarbo = 1 - (porcentajeRepresentado1 + porcentajeRepresentado3 + proporcionSegundoCarbo);
+              
+                // Validación para asegurar que la suma de proporciones es exactamente 1
+                if (Math.abs(porcentajeRepresentado1 + porcentajeRepresentado3 + proporcionSegundoCarbo + proporcionCuartoCarbo - 1) > 0.0001) {
+                  throw new Error("Error de cálculo en las proporciones. Revisa los valores ingresados.");
+                }
+              
+                porcentajeAlimento1 = porcentajeRepresentado1;
+                porcentajeAlimento2 = proporcionSegundoCarbo;
+                porcentajeAlimento3 = porcentajeRepresentado3;
+                porcentajeAlimento4 = proporcionCuartoCarbo;
+              
+                // Imprime los porcentajes finales
+                console.log("Porcentaje alimento 1:", porcentajeAlimento1.toFixed(3));
+                console.log("Porcentaje alimento 2:", porcentajeAlimento2.toFixed(3));
+                console.log("Porcentaje alimento 3:", porcentajeAlimento3.toFixed(3));
+                console.log("Porcentaje alimento 4:", porcentajeAlimento4.toFixed(3));
+              }
+
+              else if (primerAlimento.cantidad > 0 && segundoAlimento.cantidad == 0 && tercerAlimento.cantidad == 0 && cuartoAlimento.cantidad > 0) {
+                console.log("Objetivo carbos: " + objetivo.carbohidratos);
+                console.log("Carbos total: " + carbohidratosTotal);
+              
+                // Calcula los carbohidratos de los alimentos seleccionados
+                let alimento1carbohidratos = primerAlimento.cantidad * alimento1.carbohidratos;
+                let alimento4carbohidratos = cuartoAlimento.cantidad * alimento4.carbohidratos;
+              
+                console.log("Los carbohidratos del primer alimento son:", alimento1carbohidratos);
+                console.log("Los carbohidratos del cuarto alimento son:", alimento4carbohidratos);
+              
+                let carbohidratosTotalesSeleccionados = alimento1carbohidratos + alimento4carbohidratos;
+                if (carbohidratosTotalesSeleccionados > carbohidratosRestantes) {
+                  throw new Error("Vuelve a ingresar otros alimentos de carbohidratos. Hubo un error.");
+                }
+              
+                // Calcula los porcentajes representados
+                let porcentajeRepresentado1 = alimento1carbohidratos / carbohidratosRestantes;
+                let porcentajeRepresentado4 = alimento4carbohidratos / carbohidratosRestantes;
+              
+                // Genera las proporciones para los otros dos alimentos
+                let proporcionSegundoCarbo = Math.random() * (1 - (porcentajeRepresentado1 + porcentajeRepresentado4)); // Segundo alimento
+                let proporcionTercerCarbo = 1 - (porcentajeRepresentado1 + porcentajeRepresentado4 + proporcionSegundoCarbo); // Tercer alimento
+              
+                // Imprime los valores de las proporciones
+                console.log(`Porcentaje de carbohidratos representados por el primer alimento: ${porcentajeRepresentado1.toFixed(3)}`);
+                console.log(`Porcentaje de carbohidratos representados por el cuarto alimento: ${porcentajeRepresentado4.toFixed(3)}`);
+                console.log(`Porcentaje de carbohidratos representados por el segundo alimento: ${proporcionSegundoCarbo.toFixed(3)}`);
+                console.log(`Porcentaje de carbohidratos representados por el tercer alimento: ${proporcionTercerCarbo.toFixed(3)}`);
+              
+                // Validación para asegurar que la suma de proporciones es exactamente 1
+                if (Math.abs(porcentajeRepresentado1 + porcentajeRepresentado4 + proporcionSegundoCarbo + proporcionTercerCarbo - 1) > 0.0001) {
+                  throw new Error("Error de cálculo en las proporciones. Revisa los valores ingresados.");
+                }
+              
+                // Asigna las proporciones calculadas
+                porcentajeAlimento1 = porcentajeRepresentado1;
+                porcentajeAlimento2 = proporcionSegundoCarbo;
+                porcentajeAlimento3 = proporcionTercerCarbo;
+                porcentajeAlimento4 = porcentajeRepresentado4;
+              
+                // Imprime los porcentajes finales
+                console.log("Porcentaje alimento 1:", porcentajeAlimento1.toFixed(3));
+                console.log("Porcentaje alimento 2:", porcentajeAlimento2.toFixed(3));
+                console.log("Porcentaje alimento 3:", porcentajeAlimento3.toFixed(3));
+                console.log("Porcentaje alimento 4:", porcentajeAlimento4.toFixed(3));
+              }
+              else if (primerAlimento.cantidad == 0 && segundoAlimento.cantidad > 0 && tercerAlimento.cantidad > 0 && cuartoAlimento.cantidad == 0) {
+                console.log("Objetivo carbos: " + objetivo.carbohidratos);
+                console.log("Carbos total: " + carbohidratosTotal);
+              
+                // Calcula los carbohidratos de los alimentos seleccionados
+                let alimento2carbohidratos = segundoAlimento.cantidad * alimento2.carbohidratos;
+                let alimento3carbohidratos = tercerAlimento.cantidad * alimento3.carbohidratos;
+              
+                console.log("Los carbohidratos del segundo alimento son:", alimento2carbohidratos);
+                console.log("Los carbohidratos del tercer alimento son:", alimento3carbohidratos);
+              
+                let carbohidratosTotalesSeleccionados = alimento2carbohidratos + alimento3carbohidratos;
+                if (carbohidratosTotalesSeleccionados > carbohidratosRestantes) {
+                  throw new Error("Vuelve a ingresar otros alimentos de carbohidratos. Hubo un error.");
+                }
+              
+                // Calcula los porcentajes representados
+                let porcentajeRepresentado2 = alimento2carbohidratos / carbohidratosRestantes;
+                let porcentajeRepresentado3 = alimento3carbohidratos / carbohidratosRestantes;
+              
+                // Genera las proporciones para los otros dos alimentos
+                let proporcionPrimerCarbo = Math.random() * (1 - (porcentajeRepresentado2 + porcentajeRepresentado3)); // Primer alimento
+                let proporcionCuartoCarbo = 1 - (porcentajeRepresentado2 + porcentajeRepresentado3 + proporcionPrimerCarbo); // Cuarto alimento
+              
+                // Imprime los valores de las proporciones
+                console.log(`Porcentaje de carbohidratos representados por el segundo alimento: ${porcentajeRepresentado2.toFixed(3)}`);
+                console.log(`Porcentaje de carbohidratos representados por el tercer alimento: ${porcentajeRepresentado3.toFixed(3)}`);
+                console.log(`Porcentaje de carbohidratos representados por el primer alimento: ${proporcionPrimerCarbo.toFixed(3)}`);
+                console.log(`Porcentaje de carbohidratos representados por el cuarto alimento: ${proporcionCuartoCarbo.toFixed(3)}`);
+              
+                // Validación para asegurar que la suma de proporciones es exactamente 1
+                if (Math.abs(porcentajeRepresentado2 + porcentajeRepresentado3 + proporcionPrimerCarbo + proporcionCuartoCarbo - 1) > 0.0001) {
+                  throw new Error("Error de cálculo en las proporciones. Revisa los valores ingresados.");
+                }
+              
+                // Asigna las proporciones calculadas
+                porcentajeAlimento1 = proporcionPrimerCarbo;
+                porcentajeAlimento2 = porcentajeRepresentado2;
+                porcentajeAlimento3 = porcentajeRepresentado3;
+                porcentajeAlimento4 = proporcionCuartoCarbo;
+              
+                // Imprime los porcentajes finales
+                console.log("Porcentaje alimento 1:", porcentajeAlimento1.toFixed(3));
+                console.log("Porcentaje alimento 2:", porcentajeAlimento2.toFixed(3));
+                console.log("Porcentaje alimento 3:", porcentajeAlimento3.toFixed(3));
+                console.log("Porcentaje alimento 4:", porcentajeAlimento4.toFixed(3));
+              }
+              
+              
+
+              
+              else if (primerAlimento.cantidad == 0 && segundoAlimento.cantidad > 0 && tercerAlimento.cantidad == 0 && cuartoAlimento.cantidad > 0) {
+                console.log("Objetivo carbos: " + objetivo.carbohidratos);
+                console.log("Carbos total: " + carbohidratosTotal);
+              
+                // Calcula los carbohidratos de los alimentos seleccionados
+                let alimento2carbohidratos = segundoAlimento.cantidad * alimento2.carbohidratos;
+                let alimento4carbohidratos = cuartoAlimento.cantidad * alimento4.carbohidratos;
+              
+                console.log("Los carbohidratos del segundo alimento son:", alimento2carbohidratos);
+                console.log("Los carbohidratos del cuarto alimento son:", alimento4carbohidratos);
+              
+                let carbohidratosTotalesSeleccionados = alimento2carbohidratos + alimento4carbohidratos;
+                if (carbohidratosTotalesSeleccionados > carbohidratosRestantes) {
+                  throw new Error("Vuelve a ingresar otros alimentos de carbohidratos. Hubo un error.");
+                }
+              
+                // Calcula los porcentajes representados
+                let porcentajeRepresentado2 = alimento2carbohidratos / carbohidratosRestantes;
+                let porcentajeRepresentado4 = alimento4carbohidratos / carbohidratosRestantes;
+              
+                // Genera las proporciones para los otros dos alimentos
+                let proporcionPrimerCarbo = Math.random() * (1 - (porcentajeRepresentado2 + porcentajeRepresentado4)); // Primer alimento
+                let proporcionTercerCarbo = 1 - (porcentajeRepresentado2 + porcentajeRepresentado4 + proporcionPrimerCarbo); // Tercer alimento
+              
+                // Imprime los valores de las proporciones
+                console.log(`Porcentaje de carbohidratos representados por el segundo alimento: ${porcentajeRepresentado2.toFixed(3)}`);
+                console.log(`Porcentaje de carbohidratos representados por el cuarto alimento: ${porcentajeRepresentado4.toFixed(3)}`);
+                console.log(`Porcentaje de carbohidratos representados por el primer alimento: ${proporcionPrimerCarbo.toFixed(3)}`);
+                console.log(`Porcentaje de carbohidratos representados por el tercer alimento: ${proporcionTercerCarbo.toFixed(3)}`);
+              
+                // Validación para asegurar que la suma de proporciones es exactamente 1
+                if (Math.abs(porcentajeRepresentado2 + porcentajeRepresentado4 + proporcionPrimerCarbo + proporcionTercerCarbo - 1) > 0.0001) {
+                  throw new Error("Error de cálculo en las proporciones. Revisa los valores ingresados.");
+                }
+              
+                // Asigna las proporciones calculadas
+                porcentajeAlimento1 = proporcionPrimerCarbo;
+                porcentajeAlimento2 = porcentajeRepresentado2;
+                porcentajeAlimento3 = proporcionTercerCarbo;
+                porcentajeAlimento4 = porcentajeRepresentado4;
+              
+                // Imprime los porcentajes finales
+                console.log("Porcentaje alimento 1:", porcentajeAlimento1.toFixed(3));
+                console.log("Porcentaje alimento 2:", porcentajeAlimento2.toFixed(3));
+                console.log("Porcentaje alimento 3:", porcentajeAlimento3.toFixed(3));
+                console.log("Porcentaje alimento 4:", porcentajeAlimento4.toFixed(3));
+              }
+              
+
+              else if (primerAlimento.cantidad == 0 && segundoAlimento.cantidad == 0 && tercerAlimento.cantidad > 0 && cuartoAlimento.cantidad > 0) {
+                console.log("Objetivo carbos: " + objetivo.carbohidratos);
+                console.log("Carbos total: " + carbohidratosTotal);
+              
+                // Calcula los carbohidratos de los alimentos seleccionados
+                let alimento3carbohidratos = tercerAlimento.cantidad * alimento3.carbohidratos;
+                let alimento4carbohidratos = cuartoAlimento.cantidad * alimento4.carbohidratos;
+              
+                console.log("Los carbohidratos del tercer alimento son:", alimento3carbohidratos);
+                console.log("Los carbohidratos del cuarto alimento son:", alimento4carbohidratos);
+              
+                let carbohidratosTotalesSeleccionados = alimento3carbohidratos + alimento4carbohidratos;
+                if (carbohidratosTotalesSeleccionados > carbohidratosRestantes) {
+                  throw new Error("Vuelve a ingresar otros alimentos de carbohidratos. Hubo un error.");
+                }
+              
+                // Calcula los porcentajes representados
+                let porcentajeRepresentado3 = alimento3carbohidratos / carbohidratosRestantes;
+                let porcentajeRepresentado4 = alimento4carbohidratos / carbohidratosRestantes;
+              
+                // Genera las proporciones para los otros dos alimentos
+                let proporcionPrimerCarbo = Math.random() * (1 - (porcentajeRepresentado3 + porcentajeRepresentado4)); // Primer alimento
+                let proporcionSegundoCarbo = 1 - (porcentajeRepresentado3 + porcentajeRepresentado4 + proporcionPrimerCarbo); // Segundo alimento
+              
+                // Imprime los valores de las proporciones
+                console.log(`Porcentaje de carbohidratos representados por el tercer alimento: ${porcentajeRepresentado3.toFixed(3)}`);
+                console.log(`Porcentaje de carbohidratos representados por el cuarto alimento: ${porcentajeRepresentado4.toFixed(3)}`);
+                console.log(`Porcentaje de carbohidratos representados por el primer alimento: ${proporcionPrimerCarbo.toFixed(3)}`);
+                console.log(`Porcentaje de carbohidratos representados por el segundo alimento: ${proporcionSegundoCarbo.toFixed(3)}`);
+              
+                // Validación para asegurar que la suma de proporciones es exactamente 1
+                if (Math.abs(porcentajeRepresentado3 + porcentajeRepresentado4 + proporcionPrimerCarbo + proporcionSegundoCarbo - 1) > 0.0001) {
+                  throw new Error("Error de cálculo en las proporciones. Revisa los valores ingresados.");
+                }
+              
+                // Asigna las proporciones calculadas
+                porcentajeAlimento1 = proporcionPrimerCarbo;
+                porcentajeAlimento2 = proporcionSegundoCarbo;
+                porcentajeAlimento3 = porcentajeRepresentado3;
+                porcentajeAlimento4 = porcentajeRepresentado4;
+              
+                // Imprime los porcentajes finales
+                console.log("Porcentaje alimento 1:", porcentajeAlimento1.toFixed(3));
+                console.log("Porcentaje alimento 2:", porcentajeAlimento2.toFixed(3));
+                console.log("Porcentaje alimento 3:", porcentajeAlimento3.toFixed(3));
+                console.log("Porcentaje alimento 4:", porcentajeAlimento4.toFixed(3));
+              }
+
+
+              else if (primerAlimento.cantidad > 0 && segundoAlimento.cantidad > 0 && tercerAlimento.cantidad > 0 && cuartoAlimento.cantidad == 0) {
+                console.log("Objetivo carbos: " + objetivo.carbohidratos);
+                console.log("Carbos total: " + carbohidratosTotal);
+                
+                let alimento1carbohidratos = primerAlimento.cantidad * alimento1.carbohidratos;
+                let alimento2carbohidratos = segundoAlimento.cantidad * alimento2.carbohidratos;
+                let alimento3carbohidratos = tercerAlimento.cantidad * alimento3.carbohidratos;
+              
+                console.log("Los carbohidratos del primer alimento son:", alimento1carbohidratos);
+                console.log("Los carbohidratos del segundo alimento son:", alimento2carbohidratos);
+                console.log("Los carbohidratos del tercer alimento son:", alimento3carbohidratos);
+                
+                let carbohidratosTotalesSeleccionados = alimento1carbohidratos + alimento2carbohidratos + alimento3carbohidratos;
+                if (carbohidratosTotalesSeleccionados > carbohidratosRestantes) {
+                  throw new Error("Vuelve a ingresar otros alimentos de carbohidratos. Hubo un error.");
+                }
+              
+                // Calcula los porcentajes representados por los tres alimentos
+                let porcentajeRepresentado1 = alimento1carbohidratos / carbohidratosRestantes;
+                let porcentajeRepresentado2 = alimento2carbohidratos / carbohidratosRestantes;
+                let porcentajeRepresentado3 = alimento3carbohidratos / carbohidratosRestantes;
+              
+                // Calcula el porcentaje restante para el cuarto alimento
+                let porcentajeRepresentado4 = 1 - (porcentajeRepresentado1 + porcentajeRepresentado2 + porcentajeRepresentado3);
+              
+                // Validación para asegurar que todos los porcentajes sumen 1
+                let totalPorcentajes = porcentajeRepresentado1 + porcentajeRepresentado2 + porcentajeRepresentado3 + porcentajeRepresentado4;
+                if (Math.abs(totalPorcentajes - 1) > 0.0001) {
+                  throw new Error("Error de cálculo en las proporciones. Revisa los valores ingresados.");
+                }
+              
+                // Imprime los valores de las proporciones
+                console.log(`Porcentaje de carbohidratos representados por el primer alimento: ${porcentajeRepresentado1.toFixed(3)}`);
+                console.log(`Porcentaje de carbohidratos representados por el segundo alimento: ${porcentajeRepresentado2.toFixed(3)}`);
+                console.log(`Porcentaje de carbohidratos representados por el tercer alimento: ${porcentajeRepresentado3.toFixed(3)}`);
+                console.log(`Porcentaje de carbohidratos representados por el cuarto alimento: ${porcentajeRepresentado4.toFixed(3)}`);
+              
+                // Asigna las proporciones calculadas
+                porcentajeAlimento1 = porcentajeRepresentado1;
+                porcentajeAlimento2 = porcentajeRepresentado2;
+                porcentajeAlimento3 = porcentajeRepresentado3;
+                porcentajeAlimento4 = porcentajeRepresentado4;
+              
+                // Imprime los porcentajes finales
+                console.log("Porcentaje alimento 1:", porcentajeAlimento1.toFixed(3));
+                console.log("Porcentaje alimento 2:", porcentajeAlimento2.toFixed(3));
+                console.log("Porcentaje alimento 3:", porcentajeAlimento3.toFixed(3));
+                console.log("Porcentaje alimento 4:", porcentajeAlimento4.toFixed(3));
+              }
+              
+
+              else if (primerAlimento.cantidad > 0 && segundoAlimento.cantidad > 0 && tercerAlimento.cantidad == 0 && cuartoAlimento.cantidad > 0) {
+                console.log("Objetivo carbos: " + objetivo.carbohidratos);
+                console.log("Carbos total: " + carbohidratosTotal);
+                
+                // Calcula los carbohidratos de los alimentos seleccionados
+                let alimento1carbohidratos = primerAlimento.cantidad * alimento1.carbohidratos;
+                let alimento2carbohidratos = segundoAlimento.cantidad * alimento2.carbohidratos;
+                let alimento4carbohidratos = cuartoAlimento.cantidad * alimento4.carbohidratos;
+                
+                console.log("Los carbohidratos del primer alimento son:", alimento1carbohidratos);
+                console.log("Los carbohidratos del segundo alimento son:", alimento2carbohidratos);
+                console.log("Los carbohidratos del cuarto alimento son:", alimento4carbohidratos);
+                
+                let carbohidratosTotalesSeleccionados = alimento1carbohidratos + alimento2carbohidratos + alimento4carbohidratos;
+                if (carbohidratosTotalesSeleccionados > carbohidratosRestantes) {
+                  throw new Error("Vuelve a ingresar otros alimentos de carbohidratos. Hubo un error.");
+                }
+                
+                // Calcula los porcentajes representados por los tres alimentos
+                let porcentajeRepresentado1 = alimento1carbohidratos / carbohidratosRestantes;
+                let porcentajeRepresentado2 = alimento2carbohidratos / carbohidratosRestantes;
+                let porcentajeRepresentado4 = alimento4carbohidratos / carbohidratosRestantes;
+                
+                // Calcula el porcentaje restante para el tercer alimento
+                let porcentajeRepresentado3 = 1 - (porcentajeRepresentado1 + porcentajeRepresentado2 + porcentajeRepresentado4);
+                
+                // Validación para asegurar que todos los porcentajes sumen 1
+                let totalPorcentajes = porcentajeRepresentado1 + porcentajeRepresentado2 + porcentajeRepresentado3 + porcentajeRepresentado4;
+                if (Math.abs(totalPorcentajes - 1) > 0.0001) {
+                  throw new Error("Error de cálculo en las proporciones. Revisa los valores ingresados.");
+                }
+                
+                // Imprime los valores de las proporciones
+                console.log(`Porcentaje de carbohidratos representados por el primer alimento: ${porcentajeRepresentado1.toFixed(3)}`);
+                console.log(`Porcentaje de carbohidratos representados por el segundo alimento: ${porcentajeRepresentado2.toFixed(3)}`);
+                console.log(`Porcentaje de carbohidratos representados por el tercer alimento: ${porcentajeRepresentado3.toFixed(3)}`);
+                console.log(`Porcentaje de carbohidratos representados por el cuarto alimento: ${porcentajeRepresentado4.toFixed(3)}`);
+                
+                // Asigna las proporciones calculadas
+                porcentajeAlimento1 = porcentajeRepresentado1;
+                porcentajeAlimento2 = porcentajeRepresentado2;
+                porcentajeAlimento3 = porcentajeRepresentado3;
+                porcentajeAlimento4 = porcentajeRepresentado4;
+                
+                // Imprime los porcentajes finales
+                console.log("Porcentaje alimento 1:", porcentajeAlimento1.toFixed(3));
+                console.log("Porcentaje alimento 2:", porcentajeAlimento2.toFixed(3));
+                console.log("Porcentaje alimento 3:", porcentajeAlimento3.toFixed(3));
+                console.log("Porcentaje alimento 4:", porcentajeAlimento4.toFixed(3));
+              }
+              
+              
+
+              
+              else if (primerAlimento.cantidad > 0 && segundoAlimento.cantidad == 0 && tercerAlimento.cantidad > 0 && cuartoAlimento.cantidad > 0) {
+                console.log("Objetivo carbos: " + objetivo.carbohidratos);
+                console.log("Carbos total: " + carbohidratosTotal);
+              
+                // Calcula los carbohidratos de los alimentos seleccionados
+                let alimento1carbohidratos = primerAlimento.cantidad * alimento1.carbohidratos;
+                let alimento3carbohidratos = tercerAlimento.cantidad * alimento3.carbohidratos;
+                let alimento4carbohidratos = cuartoAlimento.cantidad * alimento4.carbohidratos;
+              
+                console.log("Los carbohidratos del primer alimento son:", alimento1carbohidratos);
+                console.log("Los carbohidratos del tercer alimento son:", alimento3carbohidratos);
+                console.log("Los carbohidratos del cuarto alimento son:", alimento4carbohidratos);
+              
+                let carbohidratosTotalesSeleccionados = alimento1carbohidratos + alimento3carbohidratos + alimento4carbohidratos;
+                if (carbohidratosTotalesSeleccionados > carbohidratosRestantes) {
+                  throw new Error("Vuelve a ingresar otros alimentos de carbohidratos. Hubo un error.");
+                }
+              
+                // Calcula los porcentajes representados
+                let porcentajeRepresentado1 = alimento1carbohidratos / carbohidratosRestantes;
+                let porcentajeRepresentado3 = alimento3carbohidratos / carbohidratosRestantes;
+                let porcentajeRepresentado4 = alimento4carbohidratos / carbohidratosRestantes;
+                let porcentajeRepresentado2 = 1 - (porcentajeRepresentado1 + porcentajeRepresentado4 + porcentajeRepresentado3);
+              
+                // Asegura que la suma de los porcentajes sea 1
+                let totalPorcentajes = porcentajeRepresentado1 + porcentajeRepresentado2 + porcentajeRepresentado3 + porcentajeRepresentado4;
+                if (Math.abs(totalPorcentajes - 1) > 0.0001) {
+                  throw new Error("Error de cálculo en las proporciones. Revisa los valores ingresados.");
+                }
+              
+                // Imprime los valores de las proporciones
+                console.log(`Porcentaje de carbohidratos representados por el primer alimento: ${porcentajeRepresentado1.toFixed(3)}`);
+                console.log(`Porcentaje de carbohidratos representados por el segundo alimento: ${porcentajeRepresentado2.toFixed(3)}`);
+                console.log(`Porcentaje de carbohidratos representados por el tercer alimento: ${porcentajeRepresentado3.toFixed(3)}`);
+                console.log(`Porcentaje de carbohidratos representados por el cuarto alimento: ${porcentajeRepresentado4.toFixed(3)}`);
+                
+              
+                // Asigna las proporciones calculadas
+                porcentajeAlimento1 = porcentajeRepresentado1;
+                porcentajeAlimento2 = porcentajeRepresentado2;
+                porcentajeAlimento3 = porcentajeRepresentado3;
+                porcentajeAlimento4 = porcentajeRepresentado4;
+              
+                // Imprime los porcentajes finales
+                console.log("Porcentaje alimento 1:", porcentajeAlimento1.toFixed(3));
+                console.log("Porcentaje alimento 2:", porcentajeAlimento2.toFixed(3));
+                console.log("Porcentaje alimento 3:", porcentajeAlimento3.toFixed(3));
+                console.log("Porcentaje alimento 4:", porcentajeAlimento4.toFixed(3));
+              }
+              
+
+                            
+              else if (primerAlimento.cantidad == 0 && segundoAlimento.cantidad > 0 && tercerAlimento.cantidad > 0 && cuartoAlimento.cantidad > 0) {
+                console.log("Objetivo carbos: " + objetivo.carbohidratos);
+                console.log("Carbos total: " + carbohidratosTotal);
+              
+                // Calcula los carbohidratos de los alimentos seleccionados
+                let alimento2carbohidratos = segundoAlimento.cantidad * alimento2.carbohidratos;
+                let alimento3carbohidratos = tercerAlimento.cantidad * alimento3.carbohidratos;
+                let alimento4carbohidratos = cuartoAlimento.cantidad * alimento4.carbohidratos;
+
+                
+              
+                console.log("Los carbohidratos del segundo alimento son:", alimento2carbohidratos);
+                console.log("Los carbohidratos del tercer alimento son:", alimento3carbohidratos);
+                console.log("Los carbohidratos del cuarto alimento son:", alimento4carbohidratos);
+              
+                let carbohidratosTotalesSeleccionados = alimento2carbohidratos + alimento3carbohidratos + alimento4carbohidratos;
+                if (carbohidratosTotalesSeleccionados > carbohidratosRestantes) {
+                  throw new Error("Vuelve a ingresar otros alimentos de carbohidratos. Hubo un error.");
+                }
+              
+                // Calcula los porcentajes representados
+                let porcentajeRepresentado2 = alimento2carbohidratos / carbohidratosRestantes;
+                let porcentajeRepresentado3 = alimento3carbohidratos / carbohidratosRestantes;
+                let porcentajeRepresentado4 = alimento4carbohidratos / carbohidratosRestantes;
+                let porcentajeRepresentado1 = 1 - (porcentajeRepresentado2 + porcentajeRepresentado4 + porcentajeRepresentado3);
+                
+              
+                // Asegura que la suma de los porcentajes sea 1
+                let totalPorcentajes = porcentajeRepresentado1 + porcentajeRepresentado2 + porcentajeRepresentado3 + porcentajeRepresentado4;
+                if (Math.abs(totalPorcentajes - 1) > 0.0001) {
+                  throw new Error("Error de cálculo en las proporciones. Revisa los valores ingresados.");
+                }
+              
+                // Imprime los valores de las proporciones
+                console.log(`Porcentaje de carbohidratos representados por el segundo alimento: ${porcentajeRepresentado2.toFixed(3)}`);
+                console.log(`Porcentaje de carbohidratos representados por el tercer alimento: ${porcentajeRepresentado3.toFixed(3)}`);
+                console.log(`Porcentaje de carbohidratos representados por el cuarto alimento: ${porcentajeRepresentado4.toFixed(3)}`);
+              
+                // Asigna las proporciones calculadas
+                porcentajeAlimento1 = porcentajeRepresentado1; // Primer alimento no tiene cantidad
+                porcentajeAlimento2 = porcentajeRepresentado2;
+                porcentajeAlimento3 = porcentajeRepresentado3;
+                porcentajeAlimento4 = porcentajeRepresentado4;
+              
+                // Imprime los porcentajes finales
+                console.log("Porcentaje alimento 1:", porcentajeAlimento1.toFixed(3));
+                console.log("Porcentaje alimento 2:", porcentajeAlimento2.toFixed(3));
+                console.log("Porcentaje alimento 3:", porcentajeAlimento3.toFixed(3));
+                console.log("Porcentaje alimento 4:", porcentajeAlimento4.toFixed(3));
+              }
+
+            }
+ 
+              else if (alimentosProteACuadrar.length == 0) {
+               alimento1 = alimentosProteicos[Math.floor(Math.random() * alimentosProteicos.length)];
+               console.log("El alimento 1 es " , alimento1)
+               alimento2 = combinacionDameProteRandom(alimento1.nombre)
+               console.log("El nombre del alimento 2 es " , alimento2)
+               alimento2 = alimentos.find(alimen => 
+               alimen.nombre.toLowerCase() === alimento2.toLowerCase()
+ 
+               );
+        
+                 
+ 
+              }
+            
+ 
+          } while (alimento1 === alimento2); // Asegura que los dos alimentos sean diferentes2
+
+
+         console.log("Veremossss" , + " los porcentajes son" )
+         console.log(porcentajeAlimento1)
+         console.log(porcentajeAlimento2)
+         console.log(porcentajeAlimento3)
+         console.log(porcentajeAlimento4)
+
+
+         console.log(objetivo.carbohidratos)
+         const carbosAlimento1 = objetivo.carbohidratos * porcentajeAlimento1;
+         const carbosAlimento2 = objetivo.carbohidratos * porcentajeAlimento2;
+         const carbosAlimento3 = objetivo.carbohidratos * porcentajeAlimento3;
+         const carbosAlimento4 = objetivo.carbohidratos * porcentajeAlimento4
+
+     
+         const cantidadNecesaria1 = (carbosAlimento1 / alimento1.carbohidratos);
+         console.log("Cantidad necesaria para el primer carbohidrato " + cantidadNecesaria1)
+         const cantidadNecesaria2 = (carbosAlimento2 / alimento2.carbohidratos);
+         const cantidadNecesaria3 = (carbosAlimento3 / alimento3.carbohidratos);
+         const cantidadNecesaria4 = (carbosAlimento4 / alimento4.carbohidratos);
+         
+         // Agregar los alimentos con la cantidad ajustada a las totales
+         proteinaTotal  += (alimento1.proteina * cantidadNecesaria1) 
+         + (alimento2.proteina * cantidadNecesaria2) 
+         + (alimento3.proteina * cantidadNecesaria3)
+         + (alimento4.proteina * cantidadNecesaria4) 
+         ;
+         
+         carbohidratosTotal += carbosAlimento1 + carbosAlimento2 + carbosAlimento3 + carbosAlimento4
+         
+         grasasTotal += (alimento1.grasas * cantidadNecesaria1) 
+                      + (alimento2.grasas * cantidadNecesaria2) 
+                      + (alimento3.grasas * cantidadNecesaria3)
+                      + (alimento4.grasas * cantidadNecesaria4) 
+                      ;
+         
+         caloriasTotal += (alimento1.calorias * cantidadNecesaria1) 
+                        + (alimento2.calorias * cantidadNecesaria2) 
+                        + (alimento3.calorias * cantidadNecesaria3)
+                        + (alimento4.calorias * cantidadNecesaria4) 
+                        ;
+         
+
+         if(grasasTotal <= objetivo.grasas) {
+       
+         procesarAlimentosCarbohidratos = false;
+         combinacion.push({ 
+          nombre: alimento1.nombre, 
+          cantidad: cantidadNecesaria1, 
+          proteina: alimento1.proteina * cantidadNecesaria1, 
+          carbohidratos: alimento1.carbohidratos * cantidadNecesaria1, 
+          grasas: alimento1.grasas * cantidadNecesaria1, 
+          calorias: alimento1.calorias * cantidadNecesaria1  
+        });
+        
+        combinacion.push({ 
+          nombre: alimento2.nombre, 
+          cantidad: cantidadNecesaria2, 
+          proteina: alimento2.proteina * cantidadNecesaria2, 
+          carbohidratos: alimento2.carbohidratos * cantidadNecesaria2, 
+          grasas: alimento2.grasas * cantidadNecesaria2, 
+          calorias: alimento2.calorias * cantidadNecesaria2  
+        });
+        
+        // Agregar el tercer alimento a la combinación
+        combinacion.push({ 
+          nombre: alimento3.nombre, 
+          cantidad: cantidadNecesaria3, 
+          proteina: alimento3.proteina * cantidadNecesaria3, 
+          carbohidratos: alimento3.carbohidratos * cantidadNecesaria3, 
+          grasas: alimento3.grasas * cantidadNecesaria3, 
+          calorias: alimento3.calorias * cantidadNecesaria3  
+        });
+
+        combinacion.push({ 
+          nombre: alimento4.nombre, 
+          cantidad: cantidadNecesaria4, 
+          proteina: alimento4.proteina * cantidadNecesaria4, 
+          carbohidratos: alimento4.carbohidratos * cantidadNecesaria4, 
+          grasas: alimento4.grasas * cantidadNecesaria4, 
+          calorias: alimento4.calorias * cantidadNecesaria4 
+        });
+        
+        console.log("IMPRIMIMOS LA COMBINACIÓN DE ALIMENTOS PROTEICOSSSSSSSSS: ", combinacion);
+        
+        console.log("LOS ALIMENTOS PROTEICOS ELEGIDOS SONNNNNN:");
+        
+        // Agregar los alimentos a la lista de alimentos seleccionados
+        alimentosChSeleccionados.push({ 
+          nombre: alimento1.nombre, 
+          cantidad: cantidadNecesaria1, 
+          proteina: alimento1.proteina * cantidadNecesaria1, 
+          carbohidratos: alimento1.carbohidratos * cantidadNecesaria1, 
+          grasas: alimento1.grasas * cantidadNecesaria1, 
+          calorias: alimento1.calorias * cantidadNecesaria1,
+          unidadCalorica: alimento1.calorias,
+          unidadProteica: alimento1.proteina,
+          unidadCarbo: alimento1.carbohidratos,
+          unidadGrasas: alimento1.grasas
+        });
+        
+        alimentosChSeleccionados.push({ 
+          nombre: alimento2.nombre, 
+          cantidad: cantidadNecesaria2, 
+          proteina: alimento2.proteina * cantidadNecesaria2, 
+          carbohidratos: alimento2.carbohidratos * cantidadNecesaria2, 
+          grasas: alimento2.grasas * cantidadNecesaria2, 
+          calorias: alimento2.calorias * cantidadNecesaria2,
+          unidadCalorica: alimento2.calorias,
+          unidadProteica: alimento2.proteina,
+          unidadCarbo: alimento2.carbohidratos,
+          unidadGrasas: alimento2.grasas
+        });
+        
+        // Agregar el tercer alimento a la lista de seleccionados
+        alimentosChSeleccionados.push({ 
+          nombre: alimento3.nombre, 
+          cantidad: cantidadNecesaria3, 
+          proteina: alimento3.proteina * cantidadNecesaria3, 
+          carbohidratos: alimento3.carbohidratos * cantidadNecesaria3, 
+          grasas: alimento3.grasas * cantidadNecesaria3, 
+          calorias: alimento3.calorias * cantidadNecesaria3,
+          unidadCalorica: alimento3.calorias,
+          unidadProteica: alimento3.proteina,
+          unidadCarbo: alimento3.carbohidratos,
+          unidadGrasas: alimento3.grasas
+        });
+
+        alimentosChSeleccionados.push({ 
+          nombre: alimento4.nombre, 
+          cantidad: cantidadNecesaria4, 
+          proteina: alimento4.proteina * cantidadNecesaria4, 
+          carbohidratos: alimento4.carbohidratos * cantidadNecesaria4, 
+          grasas: alimento4.grasas * cantidadNecesaria4, 
+          calorias: alimento4.calorias * cantidadNecesaria4,
+          unidadCalorica: alimento4.calorias,
+          unidadProteica: alimento4.proteina,
+          unidadCarbo: alimento4.carbohidratos,
+          unidadGrasas: alimento4.grasas
+        });
+        
+         console.log(alimentosChSeleccionados)
+         }
+         else {
+             console.log("Vamos a intentar nuevamente")
+             intentos++;
+             procesarAlimentosCarbohidratos = true;
+             proteinaTotal = 0;
+             carbohidratosTotal = 0;
+             grasasTotal = 0;
+             caloriasTotal = 0;
+             combinacion = [];
+             if(intentos > 10) {
+                 throw new Error("No se pudo encontrar una combinación con los alimentos proteicos seleccionados, elegi otros alimentos ");
+             }
+
+         }      
+
+        }
+
+  
 
        
         else if (cantidadAlimentosCarbohidratos == 1) {
@@ -1279,10 +2925,16 @@ if (intentos < 10) {
           
         console.log(alimentosGrasasSeleccionados)
 
+  
       
-      
-      
-        } else if (cantidadAlimentosGrasas == 1)
+        } else if(cantidadAlimentosGrasas == 3) {
+
+
+        }
+        
+        else if
+        
+        (cantidadAlimentosGrasas == 1)
              {
 
             
@@ -1627,8 +3279,15 @@ console.log("Los alimentos de grasas son" , alimentosGrasasSeleccionados)
 
 }
 
+function seleccionarComidaGrasasCarbosProtes() {
+
+}
+
+
+
 function run(){
 
+  
 
 
 
@@ -1640,6 +3299,7 @@ let alimentosProteicos = [ { nombre : "Higado", cantidad : 20}]
 
 }
 function construirCarbosAMandar(alimentosCarbos) {
+
     let totalCarbos = objetivo.carbohidratos;
     let caloriasCarbos = totalCarbos * 4;
     let primerAlimento = alimentosCarbos[0]
@@ -1677,15 +3337,41 @@ function construirCarbosAMandar(alimentosCarbos) {
 
 }
 
+  
+
+
 
 let soloAlimentosPasados = true;
-let alimentosProteicos = [ {nombre: "Pechuga de Pavo" , cantidad: 0, modificable: true }]
-let alimentosCarbos = [ {nombre: "Arroz" , cantidad: 0, modificable: true } , {nombre: "Tomate" , cantidad: 0, modificable: true }]
-let alimentosGrasas =  [{nombre: "Queso Cremoso" , cantidad: 0, modificable: true }]
+let alimentosProteicos = [{nombre : "Pechuga de pollo" , cantidad: 0, modificable: true }]
+let alimentosCarbos = [ {nombre: "Arroz" , cantidad: 60, modificable: false } , {nombre: "Papas" , cantidad: 0,  modificable: true }]
+let alimentosGrasas =  [{nombre: "Almendras" , cantidad: 0, modificable: true }]
 
 try {
 
     seleccionarComidaProteCarboGrasas(objetivo, soloAlimentosPasados, alimentosProteicos, alimentosCarbos, alimentosGrasas); 
+    alimentosProteicosSeleccionados.forEach(a => {
+      console.log(a.nombre + " " + a.cantidad)
+    
+  });
+
+  alimentosChSeleccionados.forEach(a => {
+    console.log(a.nombre + " " + a.cantidad)
+  
+});
+
+alimentosGrasasSeleccionados.forEach(a => {
+  console.log(a.nombre + " " + a.cantidad)
+
+});
+
+console.log("La meta calorica es " , objetivo.calorias);
+console.log("La meta proteica es " , objetivo.proteina);
+console.log("La meta ch es " , objetivo.carbohidratos);
+console.log("La meta grasas es " , objetivo.grasas);
+
+
+
+
   } catch (error) {
     console.error(error.message); // Muestra el mensaje de error en la consola
   }
