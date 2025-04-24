@@ -1,6 +1,7 @@
 import express from 'express';
 import CnxMongoDB from './model/DBMongo.js';
 import RouterAlimentos from './router/alimentos.js'; 
+import RouterUsuarios from './router/usuarios.js'; 
 import morgan from 'morgan';
 import cors from 'cors';
 import path from 'path';
@@ -36,6 +37,7 @@ class Server {
     });
 
     this.app.use('/api/alimentos', new RouterAlimentos(this.persistencia).start());
+    this.app.use('/api/usuarios', new RouterUsuarios(this.persistencia).start());
 
     // Manejo de rutas no encontradas
     this.app.use((req, res) => {

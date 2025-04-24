@@ -1,7 +1,6 @@
 import express from 'express';
 import ControladorAlimentos from '../controlador/alimentos.js';
 import multer from 'multer';
-// import cloudinary from 'cloudinary'; // solo si vas a usarlo más adelante
 
 const upload = multer({ dest: 'uploads/' });
 
@@ -19,7 +18,6 @@ console.log("RouterAlimentos iniciado");
 this.router.get('/prueba', (req, res) => this.controladorAlimentos.obtenerComidaPrueba(req, res));
 
 this.router.get('/', (req, res) => this.controladorAlimentos.obtenerAlimentos(req, res));
-
 this.router.get('/filtrar/comida', (req, res) => this.controladorAlimentos.obtenerComida(req, res));
 this.router.get('/menu-diario', (req, res) => this.controladorAlimentos.obtenerMenuDiario(req, res));
 this.router.get('/menu-semanal', (req, res) => this.controladorAlimentos.obtenerMenuSemanal(req, res));

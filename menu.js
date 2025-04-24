@@ -1,57 +1,32 @@
 const alimentos = [
-    // --- Grasas saludables ---
-    { nombre: "Almendras", proteina: 0.212, carbohidratos: 0.216, grasas: 0.499, calorias: 6.20 },
-    { nombre: "Nueces", proteina: 0.152, carbohidratos: 0.137, grasas: 0.652, calorias: 7.02 },
-    { nombre: "Aceite de Oliva", proteina: 0, carbohidratos: 0, grasas: 1, calorias: 9 },
-    { nombre: "Palta", proteina: 0.02, carbohidratos: 0.085, grasas: 0.15, calorias: 1.77 },
-    { nombre: "Mantequilla de maní", proteina: 0.25, carbohidratos: 0.2, grasas: 0.5, calorias: 6.0 },
-    { nombre: "Semillas de chía", proteina: 0.17, carbohidratos: 0.42, grasas: 0.31, calorias: 4.86 },
-  
-    // --- Proteínas ---
-    { nombre: "Pechuga de pollo", proteina: 0.31, carbohidratos: 0, grasas: 0.036, calorias: 1.56 },
-    { nombre: "Churrasco Magro", proteina: 0.27, carbohidratos: 0, grasas: 0.15, calorias: 2.43 },
-    { nombre: "Pechuga de Pavo", proteina: 0.29, carbohidratos: 0, grasas: 0.01, calorias: 1.25 },
-    { nombre: "Whey Protein", proteina: 0.8, carbohidratos: 0.04, grasas: 0.06, calorias: 3.90 },
-    { nombre: "Jamon Cocido", proteina: 0.18, carbohidratos: 0.01, grasas: 0.05, calorias: 1.21 },
-    { nombre: "Higado", proteina: 0.26, carbohidratos: 0.039, grasas: 0.045, calorias: 1.60 },
-    { nombre: "Huevo", proteina: 6.5, carbohidratos: 0.5, grasas: 5.0, calorias: 70 },
-    { nombre: "Atun en lata", proteina: 0.28, carbohidratos: 0, grasas: 0.06, calorias: 1.50 },
-    { nombre: "Tofu", proteina: 0.08, carbohidratos: 0.015, grasas: 0.045, calorias: 0.76 },
-    { nombre: "Clara de huevo", proteina: 0.11, carbohidratos: 0.008, grasas: 0, calorias: 0.52 },
-    { nombre: "Queso Cottage", proteina: 0.11, carbohidratos: 0.035, grasas: 0.045, calorias: 0.98 },
-    { nombre: "Ricota", proteina: 0.08, carbohidratos: 0.04, grasas: 0.07, calorias: 1.10 },
-  
-    // --- Carbohidratos principales ---
-    { nombre: "Arroz", proteina: 0.027, carbohidratos: 0.282, grasas: 0.003, calorias: 1.26 },
-    { nombre: "Papas", proteina: 0.02, carbohidratos: 0.175, grasas: 0.001, calorias: 0.79 },
-    { nombre: "Fideos", proteina: 0.12, carbohidratos: 0.72, grasas: 0.015, calorias: 3.50 },
-    { nombre: "Pan Blanco", proteina: 0.075, carbohidratos: 0.49, grasas: 0.012, calorias: 2.37 },
-    { nombre: "Avena", proteina: 0.13, carbohidratos: 0.68, grasas: 0.07, calorias: 3.8 },
-    { nombre: "Batata", proteina: 0.015, carbohidratos: 0.2, grasas: 0.002, calorias: 0.9 },
-    { nombre: "Polenta", proteina: 0.08, carbohidratos: 0.76, grasas: 0.01, calorias: 3.7 },
-    { nombre: "Pan integral", proteina: 0.09, carbohidratos: 0.45, grasas: 0.03, calorias: 2.5 },
-  
-    // --- Frutas (carbos secundarios) ---
-    { nombre: "Banana", proteina: 0.013, carbohidratos: 0.228, grasas: 0.003, calorias: 0.99 },
-    { nombre: "Manzana", proteina: 0.005, carbohidratos: 0.25, grasas: 0.003, calorias: 1.05 },
-    { nombre: "Pera", proteina: 0.004, carbohidratos: 0.25, grasas: 0.001, calorias: 1.03 },
-    { nombre: "Tomate", proteina: 0.009, carbohidratos: 0.039, grasas: 0.002, calorias: 0.21 },
-    { nombre: "Sandía", proteina: 0.006, carbohidratos: 0.08, grasas: 0.002, calorias: 0.36 },
-    { nombre: "Higo", proteina: 0.008, carbohidratos: 0.19, grasas: 0.003, calorias: 0.82 },
-    { nombre: "Pasas de Uva", proteina: 0.031, carbohidratos: 0.79, grasas: 0.005, calorias: 3.33 },
-  
-    // --- Alimentos extra/postre/snack ---
-    { nombre: "Dulce de Leche", proteina: 0.05, carbohidratos: 0.55, grasas: 0.08, calorias: 3.12 },
-    { nombre: "Galletitas", proteina: 0.07, carbohidratos: 0.65, grasas: 0.2, calorias: 4.68 },
-    { nombre: "Mermelada", proteina: 0.004, carbohidratos: 0.6, grasas: 0.001, calorias: 2.43 },
-    { nombre: "Cereal de maíz", proteina: 0.07, carbohidratos: 0.84, grasas: 0.01, calorias: 3.6 },
-  
-    // --- Lácteos ---
-    { nombre: "Leche Descremada", proteina: 0.034, carbohidratos: 0.05, grasas: 0.001, calorias: 0.35 },
-    { nombre: "Leche Entera", proteina: 0.032, carbohidratos: 0.048, grasas: 0.032, calorias: 0.61 },
-    { nombre: "Queso Cremoso", proteina: 0.125, carbohidratos: 0.044, grasas: 0.32, calorias: 3.56 }
-  ];
-
+  { nombre: "Almendras", proteina: 0.212, carbohidratos: 0.216, grasas: 0.499, calorias: 6.20 },
+  { nombre: "Nueces", proteina: 0.152, carbohidratos: 0.137, grasas: 0.652, calorias: 7.02 },
+  { nombre: "Aceite de Oliva", proteina: 0, carbohidratos: 0, grasas: 1, calorias: 9 },
+  { nombre: "Pechuga de pollo", proteina: 0.31, carbohidratos: 0, grasas: 0.036, calorias: 1.56 },
+  { nombre: "Churrasco Magro", proteina: 0.27, carbohidratos: 0, grasas: 0.15, calorias: 2.43 },
+  { nombre: "Banana", proteina: 0.013, carbohidratos: 0.228, grasas: 0.003, calorias: 0.99 },
+  { nombre: "Manzana", proteina: 0.005, carbohidratos: 0.25, grasas: 0.003, calorias: 1.05 },
+  { nombre: "Pan Blanco", proteina: 0.075, carbohidratos: 0.49, grasas: 0.012, calorias: 2.37 },
+  { nombre: "Tomate", proteina: 0.009, carbohidratos: 0.039, grasas: 0.002, calorias: 0.21 },
+  { nombre: "Palta", proteina: 0.02, carbohidratos: 0.085, grasas: 0.15, calorias: 1.77 },
+  { nombre: "Pera", proteina: 0.004, carbohidratos: 0.25, grasas: 0.001, calorias: 1.03 },
+  { nombre: "Arroz", proteina: 0.027, carbohidratos: 0.282, grasas: 0.003, calorias: 1.26 },
+  { nombre: "Papas", proteina: 0.02, carbohidratos: 0.175, grasas: 0.001, calorias: 0.79 },
+  { nombre: "Whey Protein", proteina: 0.8, carbohidratos: 0.04, grasas: 0.06, calorias: 3.90 },
+  { nombre: "Jamon Cocido", proteina: 0.18, carbohidratos: 0.01, grasas: 0.05, calorias: 1.21 },
+  { nombre: "Higado", proteina: 0.26, carbohidratos: 0.039, grasas: 0.045, calorias: 1.60 },
+  { nombre: "Queso Cremoso", proteina: 0.125, carbohidratos: 0.044, grasas: 0.32, calorias: 3.56 },
+  { nombre: "Pechuga de Pavo", proteina: 0.29, carbohidratos: 0, grasas: 0.01, calorias: 1.25 },
+  { nombre: "Leche Descremada", proteina: 0.034, carbohidratos: 0.05, grasas: 0.001, calorias: 0.35 },
+  { nombre: "Leche Entera", proteina: 0.032, carbohidratos: 0.048, grasas: 0.032, calorias: 0.61 },
+  { nombre: "Pasas de Uva", proteina: 0.031, carbohidratos: 0.79, grasas: 0.005, calorias: 3.33 },
+  { nombre: "Fideos", proteina: 0.12, carbohidratos: 0.72, grasas: 0.015, calorias: 3.50 },
+  { nombre: "Sandía", proteina: 0.006, carbohidratos: 0.08, grasas: 0.002, calorias: 0.36 },
+  { nombre: "Higo", proteina: 0.008, carbohidratos: 0.19, grasas: 0.003, calorias: 0.82 },
+  { nombre: "Dulce de Leche", proteina: 0.05, carbohidratos: 0.55, grasas: 0.08, calorias: 3.12 },
+  { nombre: "Galletitas", proteina: 0.07, carbohidratos: 0.65, grasas: 0.2, calorias: 4.68 },
+  { nombre: "Mermelada", proteina: 0.004, carbohidratos: 0.6, grasas: 0.001, calorias: 2.43 }
+];
 let listaCombinacionesComidas = [];
 
 
@@ -161,9 +136,9 @@ const combinacionesValidasDeComidas = [
 
 // Objetivo nutricional
 const objetivo = {
-    proteina: 40,
+    proteina: 50,
     carbohidratos: 80,
-    grasas: 35,
+    grasas: 20,
     calorias: ""
   };
   function calcularCalorias(obj) {
@@ -3350,7 +3325,7 @@ function construirCarbosAMandar(alimentosCarbos) {
 
 
 let soloAlimentosPasados = true;
-let alimentosProteicos = [{nombre : "Pechuga de pollo" , cantidad: 0, modificable: true } ,{nombre : "Pechuga de Pavo" , cantidad: 40, modificable: false }, {nombre : "Jamon Cocido" , cantidad: 15, modificable: false } ]
+let alimentosProteicos = [ ]
 let alimentosCarbos = [ {nombre: "Arroz" , cantidad: 0, modificable: true } , {nombre: "Papas" , cantidad:20,  modificable: false } , {nombre: "Fideos" , cantidad: 0, modificable: true } , {nombre: "Tomate" , cantidad: 40, modificable: false }]
 let alimentosGrasas =  [{nombre: "Queso Cremoso" , cantidad: 10, modificable: false } , {nombre: "Almendras" , cantidad: 0, modificable: true }]
 
