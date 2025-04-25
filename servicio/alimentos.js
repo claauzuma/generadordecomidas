@@ -46,10 +46,9 @@ class ServicioAlimentos {
         }
     };
 
-    // Obtener comida de prueba sin parámetros (para mostrar un menú predefinido)
     obtenerComidaPrueba = async () => {
         try {
-            // Llamar a la función de menú para obtener comida de prueba
+
             const resultado = menu.generarMenu();
             return {
                 status: 'success',
@@ -61,30 +60,31 @@ class ServicioAlimentos {
         }
     };
 
-    // Obtener el menú diario (puedes modificar esta lógica si tienes reglas para generar menús diarios)
-    obtenerMenuDiario = async () => {
+
+    obtenerMenuDiario = async (objeto) => {
         try {
-            // Llamada a alguna lógica o función que calcule el menú diario
-            const resultado = menu.generarMenu(); // Aquí podrías pasar más parámetros si es necesario
-            return {
-                status: 'success',
-                data: resultado,
-            };
+            const cantidadComidas = objeto.cantidad || Math.floor(Math.random() * 3) + 3; // si no viene, genera entre 3 y 5
+            const comidas = [];
+    
+            for (let i = 0; i < cantidadComidas; i++) {
+                const comida = menu.generarMenu(objeto); // le podés pasar el objeto si se usa dentro
+                comidas.push(comida);
+            }
+    
+            return comidas;
+    
         } catch (error) {
             console.error('Error al obtener el menú diario:', error);
             throw new Error('No se pudo obtener el menú diario');
         }
     };
+    
 
-    // Obtener el menú semanal (de igual manera, podrías ajustar la lógica según tus necesidades)
+  
     obtenerMenuSemanal = async () => {
         try {
-            // Llamada a alguna lógica o función que calcule el menú semanal
-            const resultado = menu.generarMenu(); // Aquí también puedes pasar más parámetros si es necesario
-            return {
-                status: 'success',
-                data: resultado,
-            };
+            const resultado = menu.generarMenu();
+            return resultado;
         } catch (error) {
             console.error('Error al obtener el menú semanal:', error);
             throw new Error('No se pudo obtener el menú semanal');

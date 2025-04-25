@@ -18,16 +18,11 @@ class ModelMongoDBUsuarios {
     }
 
     // Registrar un administrador
-    registrarAdmin = async (admin) => {
-        if (!CnxMongoDB.connection) {
-            throw new Error('No hay conexión a la base de datos');
-        }
-        const resultado = await CnxMongoDB.db.collection('usuarios').insertOne({
-            ...admin,
-            rol: 'admin',
-            creadoEn: new Date()
-        });
-        return { _id: resultado.insertedId, ...admin, rol: 'admin' };
+    registrarUsuario = async (usuario) => {
+        if(!CnxMongoDB.connection) return {}
+
+        await CnxMongoDB.db.collection('usuarios').insertOne(usuario)
+        return usuario
     }
 }
 

@@ -50,64 +50,147 @@ class ServicioUsuarios {
       };
 
 
-    registrarAdmin = async (admin) => {
+      registrarAdmin = async (admin) => {
         try {
-
+            // Verificar si ya existe un usuario con el mismo email
             const usuarioExistente = await this.model.obtenerUsuarios(); 
             const emailExistente = usuarioExistente.find(u => u.email === admin.email);
-            
+    
             if (emailExistente) {
                 console.warn("❌ Email ya registrado:", admin.email);
                 throw new Error('Email ya registrado');
             }
     
-
             const salt = await bcrypt.genSalt(10);
             admin.password = await bcrypt.hash(admin.password, salt);
     
-
+            admin.rol = "admin";
+    
+            const adminGuardado = await this.model.registrarUsuario(admin);  // Llamamos al modelo para guardar el administrador
+            console.log("✅ Admin registrado exitosamente:", admin.email);
+            return adminGuardado;
+             
+    
         } catch (error) {
             console.error("Error al registrar admin:", error);
             throw new Error('No se pudo registrar al admin');
         }
     };
     
+    
 
-    // Método para registrar un entrenador
     registrarEntrenador = async (entrenador) => {
         try {
+            // Verificar si ya existe un usuario con el mismo email
+            const usuarios = await this.model.obtenerUsuarios(); 
+            const emailExistente = usuarios.find(u => u.email === entrenador.email);
+    
+            if (emailExistente) {
+                console.warn("❌ Email ya registrado:", entrenador.email);
+                throw new Error('Email ya registrado');
+            }
+    
+            // Encriptar contraseña
             const salt = await bcrypt.genSalt(10);
             entrenador.password = await bcrypt.hash(entrenador.password, salt);
-            return await this.model.registrarEntrenador(entrenador);
+    
+            // Atributos iniciales
+            entrenador.rol = "entrenador";
+            entrenador.clientes = []; // Lista vacía al inicio
+            entrenador.creadoEn = new Date();
+            entrenador.activo = true; // Opcional
+            entrenador.especialidades = []; // Opcional, si pensás agregar luego
+    
+            // Guardar entrenador
+            const entrenadorGuardado = await this.model.registrarUsuario(entrenador);
+            console.log("✅ Entrenador registrado exitosamente:", entrenador.email);
+            return entrenadorGuardado;
+    
         } catch (error) {
             console.error("Error al registrar entrenador:", error);
             throw new Error('No se pudo registrar al entrenador');
         }
     };
-
-    // Método para registrar a un nutricionista
+    
+    
     registrarNutricionista = async (nutricionista) => {
         try {
+            const usuarios = await this.model.obtenerUsuarios(); 
+            const emailExistente = usuarios.find(u => u.email === nutricionista.email);
+    
+            if (emailExistente) {
+                console.warn("❌ Email ya registrado:", nutricionista.email);
+                throw new Error('Email ya registrado');
+            }
+    
             const salt = await bcrypt.genSalt(10);
             nutricionista.password = await bcrypt.hash(nutricionista.password, salt);
-            return await this.model.registrarNutricionista(nutricionista);
+    
+            nutricionista.rol = "nutricionista";
+            nutricionista.pacientes = [];  // Lista vacía de pacientes
+            nutricionista.creadoEn = new Date();
+            nutricionista.activo = true;
+    
+            const nutricionistaGuardado = await this.model.registrarUsuario(nutricionista);
+            console.log("✅ Nutricionista registrado exitosamente:", nutricionista.email);
+            return nutricionistaGuardado;
+    
         } catch (error) {
             console.error("Error al registrar nutricionista:", error);
             throw new Error('No se pudo registrar al nutricionista');
         }
     };
+    
 
-    // Método para registrar a un cliente
     registrarCliente = async (cliente) => {
         try {
+            const usuarios = await this.model.obtenerUsuarios(); 
+            const emailExistente = usuarios.find(u => u.email === cliente.email);
+    
+            if (emailExistente) {
+                console.warn("❌ Email ya registrado:", cliente.email);
+                throw new Error('Email ya registrado');
+            }
+    
             const salt = await bcrypt.genSalt(10);
             cliente.password = await bcrypt.hash(cliente.password, salt);
-            return await this.model.registrarCliente(cliente);
+    
+            cliente.rol = "cliente";
+            cliente.objetivo = "";
+            cliente.entrenadorId = null;
+            cliente.nutricionistaId = null;
+            cliente.creadoEn = new Date();
+            cliente.activo = true;
+    
+            // Tarjeta nutricional base
+            cliente.tarjetaNutricional = {
+                calorias: 0,
+                proteinas: 0,
+                carbohidratos: 0,
+                grasas: 0
+            };
+    
+            // Estructura por días de la semana
+            const dias = ["lunes", "martes", "miercoles", "jueves", "viernes", "sabado", "domingo"];
+            cliente.comidasAsignadas = {};
+            cliente.comidasGuardadas = {};
+    
+            dias.forEach(dia => {
+                cliente.comidasAsignadas[dia] = []; // Hasta 7 comidas, cada una con hasta 9 alimentos
+                cliente.comidasGuardadas[dia] = [];
+            });
+    
+            const clienteGuardado = await this.model.registrarUsuario(cliente);
+            console.log("✅ Cliente registrado exitosamente:", cliente.email);
+            return clienteGuardado;
+    
         } catch (error) {
             console.error("Error al registrar cliente:", error);
             throw new Error('No se pudo registrar al cliente');
         }
     };
+    
+    
 
     // Obtener el perfil del usuario
     obtenerPerfil = async (userId) => {

@@ -60,16 +60,74 @@ class ControladorAlimentos {
         }
     };
 
-    // GET /api/alimentos/menu-diario
-    obtenerMenuDiario = async (req, res) => {
-        try {
-            const menu = await this.servicio.obtenerMenuDiario();
-            res.json(menu);
-        } catch (error) {
-            console.error('Error al obtener el menú diario:', error);
-            res.status(500).json({ message: 'Error al obtener el menú diario' });
+    rellenarTargetComidas = async (calorias, proteinas, carbohidratos, grasas, cantidad) => {
+        const generarProporciones = (cantidad) => {
+            const randoms = Array.from({ length: cantidad }, () => Math.random());
+            const suma = randoms.reduce((a, b) => a + b, 0);
+            return randoms.map(r => r / suma); // Normalizamos para que sumen 1
+        };
+    
+        const proporcionesCalorias = generarProporciones(cantidad);
+        const proporcionesProteinas = generarProporciones(cantidad);
+        const proporcionesCarbohidratos = generarProporciones(cantidad);
+        const proporcionesGrasas = generarProporciones(cantidad);
+    
+        const targetComidas = [];
+    
+        for (let i = 0; i < cantidad; i++) {
+            targetComidas.push({
+                calorias: Math.round(proporcionesCalorias[i] * calorias),
+                proteinas: Math.round(proporcionesProteinas[i] * proteinas),
+                carbohidratos: Math.round(proporcionesCarbohidratos[i] * carbohidratos),
+                grasas: Math.round(proporcionesGrasas[i] * grasas)
+            });
         }
+    
+        return targetComidas;
     };
+    
+// GET /api/alimentos/menu-diario
+obtenerMenuDiario = async (req, res) => {
+    try {
+        const { calorias, proteinas, carbohidratos, grasas, comidas } = req.query;
+        let  { targetComidas } = req.body;
+
+        if (!calorias) {
+            return res.status(400).json({ message: 'Debes especificar las calorías' });
+        }
+
+        
+        const caloriasNum = parseFloat(calorias);
+        const proteinasNum = proteinas ? parseFloat(proteinas) : null;
+        const carbohidratosNum = carbohidratos ? parseFloat(carbohidratos) : null;
+        const grasasNum = grasas ? parseFloat(grasas) : null;
+        const cantidadComidas = comidas ? parseInt(comidas) : Math.floor(Math.random() * 3) + 3; // entre 3 y 5
+        if(!targetComidas) {
+            targetComidas = await this.rellenarTargetComidas(calorias,proteinas,carbohidratos,grasas,cantidadComidas)
+        }
+
+        console.log("El target de comidas es de " , targetComidas)
+
+        const menu = await this.servicio.obtenerMenuDiario({
+            calorias: caloriasNum,
+            proteinas: proteinasNum,
+            carbohidratos: carbohidratosNum,
+            grasas: grasasNum,
+            comidas: cantidadComidas,
+            targetComidas : targetComidas
+          
+        });
+
+        res.json(menu);
+    } catch (error) {
+        console.error('Error al obtener el menú diario:', error);
+        res.status(500).json({ message: 'Error al obtener el menú diario' });
+    }
+};
+
+
+
+
 
     // GET /api/alimentos/menu-semanal
     obtenerMenuSemanal = async (req, res) => {
