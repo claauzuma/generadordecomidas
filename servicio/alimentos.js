@@ -61,13 +61,15 @@ class ServicioAlimentos {
     };
 
 
-    obtenerMenuDiario = async (objeto) => {
+    obtenerMenuDiario = async (objeto, targetComidas) => {
         try {
-            const cantidadComidas = objeto.cantidad || Math.floor(Math.random() * 3) + 3; // si no viene, genera entre 3 y 5
+            const cantidadComidas = objeto.comidas || Math.floor(Math.random() * 3) + 3; // si no viene, genera entre 3 y 5
             const comidas = [];
     
             for (let i = 0; i < cantidadComidas; i++) {
-                const comida = menu.generarMenu(objeto); // le podés pasar el objeto si se usa dentro
+                console.log("A la primer comida le pasamos el target")
+                console.log(targetComidas[i])
+                const comida = menu.generarMenu(targetComidas[i]); // le podés pasar el objeto si se usa dentro
                 comidas.push(comida);
             }
     

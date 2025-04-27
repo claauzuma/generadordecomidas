@@ -136,8 +136,8 @@ const combinacionesValidasDeComidas = [
 
 // Objetivo nutricional
 const objetivo = {
-    proteina: 50,
-    carbohidratos: 80,
+    proteina: 40,
+    carbohidratos: 70,
     grasas: 20,
     calorias: ""
   };
@@ -173,7 +173,7 @@ function combinacionDameProteRandom(alimento) {
     const fuentesCh = comida.fuentesCh[0];
     const carbosRandom = fuentesCh[Math.floor(Math.random() * fuentesCh.length)];
 
-    carboADevolver = alimentos.find(alimen => 
+   let carboADevolver = alimentos.find(alimen => 
         alimen.nombre.toLowerCase() === carbosRandom.toLowerCase()
       );
   
@@ -193,7 +193,7 @@ function combinacionDameProteRandom(alimento) {
     const fuentesCh = comida.fuentesCh[1];
     const carbosRandom = fuentesCh[Math.floor(Math.random() * fuentesCh.length)];
 
-    carboADevolver = alimentos.find(alimen => 
+    let carboADevolver = alimentos.find(alimen => 
         alimen.nombre.toLowerCase() === carbosRandom.toLowerCase()
       );
   
@@ -3268,7 +3268,8 @@ function seleccionarComidaGrasasCarbosProtes() {
 
 
 
-function run(){
+function run(targetComida){
+  console.log("ACA ARRAANCA LA FUNCION RUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUNNNNNNNNNNN")
 
   
 
@@ -3325,13 +3326,13 @@ function construirCarbosAMandar(alimentosCarbos) {
 
 
 let soloAlimentosPasados = true;
-let alimentosProteicos = [ ]
-let alimentosCarbos = [ {nombre: "Arroz" , cantidad: 0, modificable: true } , {nombre: "Papas" , cantidad:20,  modificable: false } , {nombre: "Fideos" , cantidad: 0, modificable: true } , {nombre: "Tomate" , cantidad: 40, modificable: false }]
-let alimentosGrasas =  [{nombre: "Queso Cremoso" , cantidad: 10, modificable: false } , {nombre: "Almendras" , cantidad: 0, modificable: true }]
+let alimentosProteicos = []
+let alimentosCarbos = [ {nombre: "Arroz" , cantidad: 0, modificable: true } , {nombre: "Papas" , cantidad:20,  modificable: false } ]
+let alimentosGrasas =  []
 
 try {
 
-    seleccionarComidaProteCarboGrasas(objetivo, soloAlimentosPasados, alimentosProteicos, alimentosCarbos, alimentosGrasas); 
+    seleccionarComidaProteCarboGrasas(objetivo,soloAlimentosPasados, alimentosProteicos, alimentosCarbos, alimentosGrasas); 
     alimentosProteicosSeleccionados.forEach(a => {
       console.log(a.nombre + " " + a.cantidad)
     
@@ -3372,7 +3373,8 @@ console.log("La meta grasas es " , objetivo.grasas);
 run();
 
 
-function generarMenu(){
+function generarMenu(targetComida){
+  run(targetComida);
   const resultado = {
     proteicos: alimentosProteicosSeleccionados.map(a => ({
       nombre: a.nombre,
